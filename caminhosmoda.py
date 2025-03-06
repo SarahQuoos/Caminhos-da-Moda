@@ -7,9 +7,10 @@ Created on Tue Mar  4 07:09:51 2025
 
 import streamlit as st
 import pandas as pd
-#import time
+import time
 from datetime import datetime
 import numpy as np
+import pyautogui
 
 #Configuração de Página
 st.set_page_config(
@@ -34,9 +35,9 @@ if query:
 st.data_editor(sheet,hide_index=True,) 
 
 #Botão atualizar dados
-#if st.button("Atualizar"):
-#    pyautogui.hotkey("ctrl","F5")
-#    time.sleep(0.5)
+if st.button("Atualizar"):
+    pyautogui.hotkey("ctrl","F5")
+    time.sleep(0.5)
 
 #Rotina Cadastro
 def Cadastro():
@@ -62,18 +63,18 @@ def Cadastro():
                  'Valor Pago na peça','Porcetagem Consignação'])
     
     #Botões de cadastro e reset
-    #bot_1, bot_2 = st.columns(2)
+    bot_1, bot_2 = st.columns(2)
     
-    #with bot_1:
-    if st.button("Cadastrar"):
-        df = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Lista Produtos')
-        data = pd.concat([df, cadastro_df])
-        with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:
-            data.to_excel(writer, sheet_name='Lista Produtos',index=False)
-            st.write("Produto cadastrado com sucesso!")
-   # with bot_2:       
-    #    if st.button("Reset"):
-    #        pyautogui.hotkey("ctrl","F5")    
+    with bot_1:
+         if st.button("Cadastrar"):
+            df = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Lista Produtos')
+            data = pd.concat([df, cadastro_df])
+            with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:
+                data.to_excel(writer, sheet_name='Lista Produtos',index=False)
+                st.write("Produto cadastrado com sucesso!")
+    with bot_2:       
+        if st.button("Reset"):
+            pyautogui.hotkey("ctrl","F5")    
 
 #Rotina Venda
 def Venda():
@@ -126,10 +127,10 @@ def Venda():
 with st.sidebar:
     st.title("Opções e Serviços")
     if st.checkbox ("Cadastro"):
-        #time.sleep(0.5)
+        time.sleep(0.5)
         Cadastro()
     if st.checkbox ("Venda"):
-        #time.sleep(0.5)
+        time.sleep(0.5)
         Venda()
 
 if st.checkbox ("Visualizar produtos vendidos"):
