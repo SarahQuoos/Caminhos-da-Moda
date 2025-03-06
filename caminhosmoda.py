@@ -10,7 +10,6 @@ import pandas as pd
 #import time
 from datetime import datetime
 import numpy as np
-import PyAutoGUI
 
 #Configuração de Página
 st.set_page_config(
@@ -35,9 +34,9 @@ if query:
 st.data_editor(sheet,hide_index=True,) 
 
 #Botão atualizar dados
-if st.button("Atualizar"):
-    pyautogui.hotkey("ctrl","F5")
-    time.sleep(0.5)
+#if st.button("Atualizar"):
+#    pyautogui.hotkey("ctrl","F5")
+#    time.sleep(0.5)
 
 #Rotina Cadastro
 def Cadastro():
