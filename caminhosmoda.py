@@ -117,10 +117,12 @@ def Venda():
         with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:
             dado.to_excel(writer,sheet_name='Vendas',index=False)
             st.write("Produto atualizado com sucesso!")
+            git pull origin main 
             
         dado2 = sheet.drop(sheet.index[row_index])
         with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:    
             dado2.to_excel(writer,sheet_name='Lista Produtos',index=False)
+            git pull origin main 
             
 #Menu de opções
 with st.sidebar:
