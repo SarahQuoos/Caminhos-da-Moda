@@ -8,8 +8,8 @@ Created on Tue Mar  4 07:09:51 2025
 import streamlit as st
 import pandas as pd
 import time
+from datetime import datetime
 import numpy as np
-import pyautogui
 
 #Configuração de Página
 st.set_page_config(
@@ -24,23 +24,26 @@ st.set_page_config(
 st.title("Fluxo de Caixa Caminhos da Moda")
 
 #Visualização de dados
+st.markdown("### Consulta produtos disponíveis")
 sheet = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Lista Produtos')
 query = st.text_input("Filtro")
 if query:
-    mask = sheet.applymap(lambda x: query in str(x).lower()).any(axis=1)
+    mask = sheet.applymap(lambda x: query in str(x).upper()).any(axis=1)
     sheet = sheet[mask]
 
 st.data_editor(sheet,hide_index=True,) 
 
 #Botão atualizar dados
-if st.button("Atualizar"):
-    pyautogui.hotkey("ctrl","F5")
-    time.sleep(0.5)
+#if st.button("Atualizar"):
+#    pyautogui.hotkey("ctrl","F5")
+#    time.sleep(0.5)
 
 #Rotina Cadastro
 def Cadastro():
     status = 'Disponível'
-    categoria = st.selectbox("Categoria:",("Select", "Blusa","Camisa","Calça","Saia","Vestido","Macacão"),)
+    categoria = st.selectbox("Categoria:",("Select", "Biquini","Blusa","Bolsa","Calça", "Camisa","Camiseta",
+                                           "Chapéu","Jaqueta","Macacão","Maiô","Pijama","Saia","Saída de Praia",
+                                           "Shorts","TOP", "Vestido"),)
     codigo = st.text_input('Código:')
     proprietario = st.text_input('Proprietária:')
     produto = st.text_input('Descrição do Produto:')
@@ -59,43 +62,51 @@ def Cadastro():
                  'Valor Pago na peça','Porcetagem Consignação'])
     
     #Botões de cadastro e reset
-    bot_1, bot_2 = st.columns(2)
+    #bot_1, bot_2 = st.columns(2)
     
-    with bot_1:
-         if st.button("Cadastrar"):
-            df = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Lista Produtos')
-            data = pd.concat([df, cadastro_df])
-            with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:
-                data.to_excel(writer, sheet_name='Lista Produtos',index=False)
-                st.write("Produto cadastrado com sucesso!")
-    with bot_2:       
-        if st.button("Reset"):
-            pyautogui.hotkey("ctrl","F5")    
+    #with bot_1:
+    if st.button("Cadastrar"):
+        df = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Lista Produtos')
+        data = pd.concat([df, cadastro_df])
+        with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:
+            data.to_excel(writer, sheet_name='Lista Produtos',index=False)
+            st.write("Produto cadastrado com sucesso!")
+   # with bot_2:       
+    #    if st.button("Reset"):
+    #        pyautogui.hotkey("ctrl","F5")    
 
 #Rotina Venda
 def Venda():
-    codigox = st.text_input('Código:')
+    codigox = st.text_input('Qual é o Código?')
     valorreal = st.number_input('Valor Real da Venda:')
+    #frete = st.number_input('Valor do frete:')
     pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix","Crédito","Débito","Dinheiro"),)
+    date = datetime.today().strftime('%d-%m-%Y')
     
     #Procura banco de dados
     sheet = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Lista Produtos')
     df = sheet[sheet['Código'] == codigox]
-    
+    row_index = sheet.index[sheet['Código'] == codigox].tolist()
+            
     #Contas lucro
-    valorpag = df['Valor Pago na peça']
+    valorpag = df['Valor Pago na peça'].tolist()
     valorpago = np.array(valorpag)
-    porcentage = df['Porcetagem Consignação']
+    porcentage = df['Porcetagem Consignação'].tolist()
     porcentagem = np.array(porcentage)
-    lucr = valorreal - valorpago - ((porcentagem/100)*valorreal)
-    lucro = np.array(lucr)    
-    
+  
+    if porcentagem == 0:  
+        lucro = valorreal - valorpago
+        retorno = 0
+    else:
+        lucro = valorreal - (((100-porcentagem)*valorreal)/100)
+        retorno = valorreal - ((porcentagem)*valorreal)/100
+              
     #Faz dataframe
-    venda = [[codigox, valorreal, lucro, pagamento]]
+    venda = [[codigox, valorreal, retorno, lucro, pagamento, date]]
     
     venda_df = pd.DataFrame(
         data=venda,
-        columns=['Código','Valor real de Venda', 'Lucro', 'Forma de pagamento',])
+        columns=['Código','Valor real de Venda', 'Valor retorno proprietária', 'Lucro', 'Forma de pagamento','Data'])
     
     dff = df.merge(venda_df, how='left', on='Código')
     
@@ -106,7 +117,11 @@ def Venda():
         with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:
             dado.to_excel(writer,sheet_name='Vendas',index=False)
             st.write("Produto atualizado com sucesso!")
-    
+            
+        dado2 = sheet.drop(sheet.index[row_index])
+        with pd.ExcelWriter('Caminhos da Moda.xlsx', mode="a", engine="openpyxl", if_sheet_exists="replace",) as writer:    
+            dado2.to_excel(writer,sheet_name='Lista Produtos',index=False)
+            
 #Menu de opções
 with st.sidebar:
     st.title("Opções e Serviços")
@@ -117,6 +132,6 @@ with st.sidebar:
         time.sleep(0.5)
         Venda()
 
-if st.checkbox ("Produtos vendidos"):
+if st.checkbox ("Visualizar produtos vendidos"):
     sheet2 = pd.read_excel('Caminhos da Moda.xlsx', sheet_name='Vendas')
     sheet2
