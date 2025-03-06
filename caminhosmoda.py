@@ -7,7 +7,7 @@ Created on Tue Mar  4 07:09:51 2025
 
 import streamlit as st
 import pandas as pd
-import time
+#import time
 from datetime import datetime
 import numpy as np
 
@@ -126,10 +126,10 @@ def Venda():
 with st.sidebar:
     st.title("Opções e Serviços")
     if st.checkbox ("Cadastro"):
-        time.sleep(0.5)
+        #time.sleep(0.5)
         Cadastro()
     if st.checkbox ("Venda"):
-        time.sleep(0.5)
+        #time.sleep(0.5)
         Venda()
 
 if st.checkbox ("Visualizar produtos vendidos"):
