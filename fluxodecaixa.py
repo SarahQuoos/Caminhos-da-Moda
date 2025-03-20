@@ -9,7 +9,7 @@ import streamlit as st
 import time
 import pandas as pd
 from datetime import datetime
-import pyautogui
+#import pyautogui
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -51,8 +51,8 @@ if query:
 st.data_editor(listaprodutos,hide_index=True,) 
 
 #Botão inicial atualizar dados
-if st.button("Atualizar"):
-    pyautogui.hotkey("ctrl","F5")
+#if st.button("Atualizar"):
+#    pyautogui.hotkey("ctrl","F5")
 
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
@@ -92,8 +92,8 @@ def Cadastro():
             sheet1.append_row(cadastro)
             st.write("Produto cadastrado com sucesso!")
             #atualizando a página
-            time.sleep(1.0)
-            pyautogui.hotkey("ctrl","F5")
+            #time.sleep(1.0)
+            #pyautogui.hotkey("ctrl","F5")
 
 #Rotina Venda
 def Venda():
@@ -149,8 +149,8 @@ def Venda():
             sheet1.delete_rows(linha)
             st.write("Produto atualizado com sucesso!")
             #atulizando a pagina
-            time.sleep(1.0)
-            pyautogui.hotkey("ctrl","F5")
+            #time.sleep(1.0)
+            #pyautogui.hotkey("ctrl","F5")
 
 #Rotina de cadastro de despezas mensais
 def Despezas():
