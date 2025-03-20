@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "caminhos-da-moda-454115",
+  "private_key_id": "9c53c6f3118d9fa09231fe95700f1a7baab5a57f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDAaUSUIgUpP1l5\ni8L1Wgz2tCpDVX2ulx1+aVxr94vzpz5/MMfCIl/MjHhl15CZBi7uX3jf+7je6bel\n7Vy9LuGJnUy9+w3uBbe3j/dOr329fGFHkjFgLzr8fk2IQyXeO3u1onDaqGjqhEk4\nBpGDST486jo0XP7RWPHflfxRrAVO3Q7RYq3EXMp3U5ISuaAUncCAdMKRkBu8fyvy\n+r5y1S4LITFidz21INkUhWBAY2ziwq03Dluh7qZtbVVqb0WilMKQbXUcKm3FnLwg\n65dZ/ZTFPnGTQvZZ+wddgqZ2olpAVJYGO+YQeK5LrEksjT03xgB9LiZBqtOxqe72\n80yQgux5AgMBAAECggEABqBJbI7cXc6GRWA0W1CEfvAhlCE1phAjA6IGEltwyM1d\nuAcacKYlkEIrzkQKwSj8RO4UQqW6TjDpx7ohdgwPLSGgjYVVC46hBEkIrlTEUC91\nm9Tzbtl0NFL21ru16jiNsCmzLbsxe8FeUnfaxdTn+AnlQxLgcp4CcbL1AMIGCnBq\no4M4O1kPZ0hYQ3BopZ2+IMcFdGRqHIYNiZxacysUQbR2qK8mkgkps3ig6oOtwRN/\npIPtDGVqPemMsiXrYw48Iz4bKEZV52gpw8mSj0lO/+4m7UfzYC+0xvt6aNTa3E8z\nmpx8FXjp7fGeqfMc2FEtfWgkJYG/ZVPNPn6CXJitNQKBgQDefW+p/3ypP91p3AOX\no9kxkWpSAMBUzoIWKXlwL05koMTwzHOyTu+QU9DY9yzkLuFB4b9OMf0Yh+2P7Ghb\nTaEHw/W8SwNuoxaidMfqo3hzNBTi29Y2hJ6tGhc9NOPKNeO6vYF7cjfMM5rrXg9a\nQbYgnflKhMRpIsTlKMV7w465jQKBgQDdZBTr0+2vM0/oSHsidc8bnxDXTe6BqOuG\nZ1XMfS7Zla8n8he0vemz1WDIh4DRiHSun5tFBNBevTB0Dl8Qj24KgQwnvsl968vP\ntA9eidziIhHWseFzOZNU/vISvdC1W/YA+SXK8+SGdZ9R9twrX+00vFJVnDASNRMB\nvL0mTgDlnQKBgQDUus63lkbVdPD5NJpitREIKeekfH9pFwKeug0YzMKByI5FRtcg\nmATK1LkNmlhb3M8YNQa7d2RtvhnQ0NN+6Ryc1irxXC/t6xXLQymbGa4jSJrnxhZt\njiRBkn7B0P4z647QkD1rkOv03Sq0/Pxk6gt/6EvhikxZ0hq8mV0pVvPySQKBgHHZ\nU8DqnSIpuv/ytg/EkZrcs+ZklzBqU6QsY7zi60LNbOOX5YT23MW0By9YL3CRQZ/D\nSC+4CAeQNuiXs19qwuX38u5FeIyew5KuP/EX6FUJvC6yDwQYKaHd8VKd9kQtZFaf\nyUWTIoPa3PFjh1lu3SbvaU/JIBdc38dW7dZS6rcpAoGAE/GzMRJt9MZHoPYC3Ato\nXolgAIOGfod/uGiZE2HbtVtCHsw4z+BTUxuXCJp2LtOe/yGKI+d4+2GbOlBgmabR\nrmggQfAO155OgIgGpAhJC0CcbWVNHhkoIaZhRPzUuYv2bh0Po487VjmXW7rbU9Nl\nx8jc+TBb0qSe0vxNQq85IGI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "caminhosdamoda@caminhos-da-moda-454115.iam.gserviceaccount.com",
+  "client_id": "116097916837101685440",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/caminhosdamoda%40caminhos-da-moda-454115.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
