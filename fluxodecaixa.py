@@ -14,8 +14,9 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 #Identificando arquivo do drive e as credenciais
+xl = ${{secrets.AAAAAAAAAAAAAAAAAAAAAAAA}}
 scope = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name('credencial_caminhosdamoda.json',scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name(xl,scope)
 client = gspread.authorize(creds)
 
 #Configuração de Página
