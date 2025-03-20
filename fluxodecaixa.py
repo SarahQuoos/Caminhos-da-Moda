@@ -14,7 +14,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 
-credencial = ${{secrets.CREDENCIAL_CAMINHOSDAMODA}}
+credencial = ${{secrets.AAAAAAAAAAAAAAAAAAAAAAAA}}
 
 #Identificando arquivo do drive e as credenciais
 scope = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
