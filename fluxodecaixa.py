@@ -20,6 +20,8 @@ def get_client():
     client = gspread.service_account_from_dict(g_sheets_creds)
     return client
 
+
+
 #Configuração de Página
 st.set_page_config(
     page_title="Caminhos da Moda",
@@ -117,24 +119,27 @@ def Venda():
         porcentagem = sheet1.cell(linha, 10).value
         porcentagem = float(porcentagem)
      
-    #Restante das informações de venda
-    valorreal = st.number_input('Valor Real da Venda:', value=valorpago)
-    pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix","Crédito","Débito","Dinheiro"),)
-    date = datetime.today().strftime('%d-%m-%Y')
+    with st.form(key='venda'):
+        #Restante das informações de venda
+        valorreal = st.number_input('Valor Real da Venda:', value=valorpago)
+        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix","Crédito","Débito","Dinheiro"),)
+        date = datetime.today().strftime('%d-%m-%Y')
+
+        botao_vendido = st.form_submit_button('Vendido')
     
-    #Calculo do lucro
-    if porcentagem == 0:  
-        lucro = valorreal
-        retorno = 0
-    else:
-        lucro = valorreal - (((100-porcentagem)*valorreal)/100)
-        retorno = valorreal - ((porcentagem)*valorreal)/100
-             
-    #Faz dataframe
-    venda = [valorreal, lucro, pagamento, retorno, date]
 
     #Atualiza planilhas
-    if st.button("Vendido"):
+    if botao_vendido:
+        #Calculo do lucro
+        if porcentagem == 0:  
+            lucro = valorreal
+            retorno = 0
+        else:
+            lucro = valorreal - (((100-porcentagem)*valorreal)/100)
+            retorno = valorreal - ((porcentagem)*valorreal)/100
+                
+        #Faz dataframe
+        venda = [valorreal, lucro, pagamento, retorno, date]
         if (codigo == "") or (pagamento == "Select") or (valorreal == 0):
             st.write("Preencha todas as informações para realizar a venda")
         else:
@@ -143,11 +148,11 @@ def Venda():
                 if data[i] == "Disponivel":
                     data[i] = "Vendido"
             venda_new = data + venda
-            sheet2.append_row(venda_new)
+            sheet2.append_row(venda_new, value_input_option=gspread.utils.ValueInputOption.user_entered)
             sheet1.delete_rows(linha)
             st.write("Produto atualizado com sucesso!")
             #atulizando a pagina
-            time.sleep(1.0)
+            st.rerun()
 
 #Rotina de cadastro de despezas mensais
 def Despezas():
@@ -165,7 +170,7 @@ def Despezas():
     arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
     sheet4 = arquivo.worksheet("Despezas")
     
-    if st.button("Cadastrar"):
+    if st.button("Cadastrar", key='cadastrar_despesa'):
         if (des == "") or (valor == 0):
             st.write("Preencha todas as informações para cadastro")
         else:
