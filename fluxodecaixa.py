@@ -9,18 +9,16 @@ import streamlit as st
 import time
 import pandas as pd
 from datetime import datetime
-import pyautogui
 import gspread
-# from oauth2client.service_account import ServiceAccountCredentials
 
-g_sheets_creds = st.secrets['gsheets']
+@st.cache_resource(ttl=60)
+def get_client():
+    g_sheets_creds = st.secrets['gsheets']
+    #Identificando arquivo do drive e as credenciais
+    scope = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 
-#Identificando arquivo do drive e as credenciais
-scope = ['https://www.googleapis.com/auth/spreadsheets', "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-
-# creds = ServiceAccountCredentials.from_json_keyfile_name('credencial_caminhosdamoda.json',scope)
-client = gspread.service_account_from_dict(g_sheets_creds)
-# client = gspread.authorize(creds)
+    client = gspread.service_account_from_dict(g_sheets_creds)
+    return client
 
 #Configuração de Página
 st.set_page_config(
@@ -37,7 +35,7 @@ st.title("Fluxo de Caixa Caminhos da Moda")
 st.markdown("### Consulta produtos disponíveis")
 
 #Abrindo arquivo no drive e transformando em dataframe no pandas
-arquivo = client.open('Fluxodecaixa_Caminhosdamoda')
+arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
 sheet = arquivo.worksheet("Lista Produtos")
 
 data = sheet.get_all_values()
@@ -49,14 +47,10 @@ arquivo.client.session.close()
 #Fazendo filtro
 query = st.text_input("Filtro")
 if query:
-    mask = listaprodutos.applymap(lambda x: query in str(x).upper()).any(axis=1)
+    mask = listaprodutos.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
     listaprodutos = listaprodutos[mask]
 
 st.data_editor(listaprodutos,hide_index=True,) 
-
-#Botão inicial atualizar dados
-if st.button("Atualizar"):
-    pyautogui.hotkey("ctrl","F5")
 
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
@@ -65,7 +59,7 @@ def Cadastro():
                                            "Shorts","TOP", "Vestido"),)
     
     #Abrindo arquivos no drive
-    arquivo = client.open('Fluxodecaixa_Caminhosdamoda')
+    arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
     sheet1 = arquivo.worksheet("Lista Produtos")  
     sheet3 = arquivo.worksheet("Códigos")
     
@@ -75,35 +69,35 @@ def Cadastro():
     codx = sheet3.cell(linha, 6).value
 
     #Continuação do cadastro
-    status = 'Disponivel'
-    codigo = st.text_input("Código:", codx)
-    proprietario = st.text_input('Proprietária:')
-    produto = st.text_input('Descrição do Produto:')
-    marca = st.text_input('Marca:')
-    numeracao = st.selectbox("Numeração:",("Select","PP","P","M","G","GG","36","38","40","42","44","46"),)
-    valor = st.number_input('Valor de Venda:')
-    valorpago = st.number_input('Valor Pago na peça:')
-    valoretorno = st.number_input('Porcentagem Consignação:')
+    with st.form(key='cadastro'):
+        status = 'Disponivel'
+        codigo = st.text_input("Código:", codx)
+        proprietario = st.text_input('Proprietária:')
+        produto = st.text_input('Descrição do Produto:')
+        marca = st.text_input('Marca:')
+        numeracao = st.selectbox("Numeração:",("Select","PP","P","M","G","GG","36","38","40","42","44","46"),)
+        valor = st.number_input('Valor de Venda:')
+        valorpago = st.number_input('Valor Pago na peça:')
+        valoretorno = st.number_input('Porcentagem Consignação:')
     
-    #Faz dataframe
-    cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno]
-    
-    #Botões de cadastro
-    if st.button("Cadastrar"):
-        if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0):
-            st.write("Preencha todas as informações para cadastro")
-        else:
-            sheet1.append_row(cadastro)
-            st.write("Produto cadastrado com sucesso!")
-            #atualizando a página
-            time.sleep(1.0)
-            pyautogui.hotkey("ctrl","F5")
+        #Faz dataframe
+        cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno]
+        
+        #Botões de cadastro
+        if st.form_submit_button("Cadastrar"):
+            if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0):
+                st.write("Preencha todas as informações para cadastro")
+            else:
+                sheet1.append_row(cadastro)
+                st.write("Produto cadastrado com sucesso!")
+                #atualizando a página
+                time.sleep(1.0)
 
 #Rotina Venda
 def Venda():
     codigo = st.text_input('Qual é o Código?')
     #Procura código banco de dados
-    arquivo = client.open('Fluxodecaixa_Caminhosdamoda')
+    arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
     sheet1 = arquivo.worksheet("Lista Produtos")
     sheet2 = arquivo.worksheet("Vendas")
     
@@ -111,20 +105,20 @@ def Venda():
     if codigo == "":
         linha = 0
         data = 0
-        #valorpago = 0
+        valorpago = 0
         porcentagem = 0  
     else: 
         #Pegando código do produto
-        search = sheet1.find(codigo)
+        search = sheet1.find(codigo.upper())
         linha = search.row
         data = sheet1.row_values(linha)
-        #valorpago = sheet1.cell(linha, 9).value
-        #valorpago = float(valorpago)
+        valorpago = sheet1.cell(linha, 8).value
+        valorpago = float(valorpago.replace(',','.'))
         porcentagem = sheet1.cell(linha, 10).value
         porcentagem = float(porcentagem)
      
     #Restante das informações de venda
-    valorreal = st.number_input('Valor Real da Venda:')
+    valorreal = st.number_input('Valor Real da Venda:', value=valorpago)
     pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix","Crédito","Débito","Dinheiro"),)
     date = datetime.today().strftime('%d-%m-%Y')
     
@@ -154,7 +148,6 @@ def Venda():
             st.write("Produto atualizado com sucesso!")
             #atulizando a pagina
             time.sleep(1.0)
-            pyautogui.hotkey("ctrl","F5")
 
 #Rotina de cadastro de despezas mensais
 def Despezas():
@@ -169,7 +162,7 @@ def Despezas():
     despeza = [date, des, valor]
     
     #Abrindo arquivo excel
-    arquivo = client.open('Fluxodecaixa_Caminhosdamoda')
+    arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
     sheet4 = arquivo.worksheet("Despezas")
     
     if st.button("Cadastrar"):
