@@ -93,6 +93,7 @@ def Cadastro():
                 sheet1.append_row(cadastro)
                 st.write("Produto cadastrado com sucesso!")
                 #atualizando a página
+                st.rerun()
                 time.sleep(1.0)
 
 #Rotina Venda
