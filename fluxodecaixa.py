@@ -57,7 +57,7 @@ st.data_editor(listaprodutos,hide_index=True,)
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
     categoria = st.selectbox("Categoria:",("Select", "Biquini","Blazer","Blusa","Bolsa","Calça", "Camisa","Camiseta",
-                                           "Chapéu","Jaqueta","Macacão","Maiô","Pijama","Saia","Saída de Praia",
+                                           "Chapéu", "Cinto", "Jaqueta","Macacão","Maiô","Pijama","Saia","Saída de Praia",
                                            "Shorts","TOP", "Vestido"),)
     
     #Abrindo arquivos no drive
