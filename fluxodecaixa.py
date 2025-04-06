@@ -93,9 +93,9 @@ def Cadastro():
                 sheet1.append_row(cadastro)
                 st.write("Produto cadastrado com sucesso!")
                 #atualizando a página
-                st.rerun()
                 time.sleep(1.0)
-
+                st.rerun()
+            
 #Rotina Venda
 def Venda():
     codigo = st.text_input('Qual é o Código?')
