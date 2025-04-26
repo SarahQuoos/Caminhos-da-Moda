@@ -57,8 +57,8 @@ st.data_editor(listaprodutos,hide_index=True,)
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
     categoria = st.selectbox("Categoria:",("Select", "Biquini","Blazer","Blusa","Bolsa","Calça", "Camisa","Camiseta",
-                                           "Chapéu", "Cinto", "Jaqueta","Macacão","Maiô","Pijama","Saia","Saída de Praia",
-                                           "Shorts","TOP", "Vestido"),)
+                                           "Chapéu", "Cinto", "Colete", "Jaqueta","Macacão","Maiô","Pijama","Saia",
+                                           "Saída de Praia","Shorts","TOP", "Vestido"),)
     
     #Abrindo arquivos no drive
     arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
