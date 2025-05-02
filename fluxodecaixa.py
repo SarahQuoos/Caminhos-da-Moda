@@ -77,7 +77,7 @@ def Cadastro():
         proprietario = st.text_input('Proprietária:')
         produto = st.text_input('Descrição do Produto:')
         marca = st.text_input('Marca:')
-        numeracao = st.selectbox("Numeração:",("Select","PP","P","M","G","GG","36","38","40","42","44","46"),)
+        numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","36","38","40","42","44","46"),)
         valor = st.number_input('Valor de Venda:')
         valorpago = st.number_input('Valor Pago na peça:')
         valoretorno = st.number_input('Porcentagem Consignação:')
