@@ -81,9 +81,10 @@ def Cadastro():
         valor = st.number_input('Valor de Venda:')
         valorpago = st.number_input('Valor Pago na peça:')
         valoretorno = st.number_input('Porcentagem Consignação:')
+        date = datetime.today().strftime('%d-%m-%Y')
     
         #Faz dataframe
-        cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno]
+        cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno,date]
         
         #Botões de cadastro
         if st.form_submit_button("Cadastrar"):
