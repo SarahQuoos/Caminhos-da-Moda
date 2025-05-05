@@ -155,7 +155,6 @@ def Venda():
             sheet2.append_row(venda_new, value_input_option=gspread.utils.ValueInputOption.user_entered)
             sheet1.delete_rows(linha)
             st.write("Produto atualizado com sucesso!")
-            time.sleep(1.0)
             #atulizando a pagina
             st.rerun()
 
