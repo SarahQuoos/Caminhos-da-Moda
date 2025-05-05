@@ -261,9 +261,8 @@ with st.expander("Conferir Lucro Mensal"):
     listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
     
     #Definindo mes de visualização
-    year = 2025
-    month = 5
-    df = listaprodutos[(listaprodutos['Data de Cadastro']>datetime.date(1,month,year)) & (listaprodutos['Data de Cadastro']<datetime.date(31,month,year))]
+
+    df = listaprodutos[(listaprodutos['Data de Cadastro']>datetime.date(1,5,2025)) & (listaprodutos['Data de Cadastro']<datetime.date(31,5,2025))]
     st.write(df)
     
     start_date = pd.to_datetime('2025-05-01')
