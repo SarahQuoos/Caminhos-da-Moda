@@ -67,12 +67,7 @@ def Cadastro():
             valoretorno = st.number_input('Porcentagem Consignação:')
         valor = st.number_input('Valor de Venda:')
         date = datetime.today().strftime('%d-%m-%Y')
-
-        #Sugestão valor de venda
-        #if valorpago != 0:
-        #    valor_sugestao = ((valorpago*1.5)*1.05)+5
-        #    st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
-            
+        
         #Faz dataframe
         cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno,date]
         
@@ -259,8 +254,10 @@ with st.expander("Conferir Despesas"):
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
     listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
-    #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'])
     start_date = pd.to_datetime('2025-01-01')
     end_date = pd.to_datetime('2025-01-31')
     filtered_df = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
+    column_sum = listadespesas['Valor Despesa'].sum()
     st.write(filtered_df)
+    st.write(column_sum)
+    #st.metric(label="Valor Total Despezas", value=f"{'R$ {:,.2f}'.format(column_sum)} ",)
