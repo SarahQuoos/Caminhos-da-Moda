@@ -148,9 +148,11 @@ def Venda():
             venda = [valorreal_aux, pagamento, taxa, valorreal, retorno, valorfinal, date]
 
             #Substitui status e atualiza planilhas
-            for i in range(len(data)):
-                if data[i] == "Disponivel":
-                    data[i] = "Vendido"
+            time.sleep(1.0)
+            #for i in range(len(data)):
+            #    if data[i] == "Disponivel":
+            #        data[i] = "Vendido"
+            data[0] = "Vendido"
             venda_new = data + venda
             sheet2.append_row(venda_new, value_input_option=gspread.utils.ValueInputOption.user_entered)
             sheet1.delete_rows(linha)
