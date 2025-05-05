@@ -258,7 +258,8 @@ with st.expander("Conferir Despesas"):
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    df = pd.DataFrame(data4)
+    data5 = sheet4.get_all_values()
+    df = pd.DataFrame(data5)
     df_data = df['Data']
     st.write(df_data)
     #start_date = pd.to_datetime('2024-01-01')
