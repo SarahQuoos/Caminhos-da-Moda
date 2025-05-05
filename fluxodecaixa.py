@@ -269,7 +269,8 @@ with st.expander("Conferir Lucro Mensal"):
     filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
     time.sleep(0.5)
     filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
-    filtered_vendas['Valor Líquido'] = pd.to_numeric(filtered_vendas['Valor Líquido'], errors='ignore')
+    filtered_vendas['Valor Líquido'] = float(filtered_vendas['Valor Líquido'].replace(',','.'))
+    #filtered_vendas['Valor Líquido'] = pd.to_numeric(filtered_vendas['Valor Líquido'], errors='ignore')
     df = filtered_vendas['Valor Líquido']
     st.write(df)
     time.sleep(0.5)
