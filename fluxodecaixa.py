@@ -258,9 +258,9 @@ with st.expander("Conferir Despesas"):
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%Y-%m-%d')
+    #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%Y-%m-%d')
     #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'])
     start_date = pd.to_datetime('2024-01-01')
     end_date = pd.to_datetime('2024-01-31')
-    filtered_df = df[(df['Data'] >= start_date) & (df['Data'] <= end_date)]
+    filtered_df = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
     st.write(filtered_df)
