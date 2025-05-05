@@ -191,10 +191,10 @@ def Modofeira():
         with st.expander("Item 2"):
             codigo2 = st.text_input('Qual é o Código?')
             valor2 = st.number_input('Valor Peça:', value=0)  
-         with st.expander("Item 3"):
+        with st.expander("Item 3"):
             codigo3 = st.text_input('Qual é o Código?')
             valor3 = st.number_input('Valor Peça:', value=0) 
-         with st.expander("Item 4"):
+        with st.expander("Item 4"):
             codigo4 = st.text_input('Qual é o Código?')
             valor4 = st.number_input('Valor Peça:', value=0) 
         with st.expander("Item 5"):
