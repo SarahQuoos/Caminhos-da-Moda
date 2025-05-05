@@ -1,16 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 18 13:01:28 2025
-
-@author: Sarah
-"""
-
 import streamlit as st
 import time
 import pandas as pd
 from datetime import datetime
 import gspread
 
+#Acesso a planilha banco de dados
 @st.cache_resource(ttl=60)
 def get_client():
     g_sheets_creds = st.secrets['gsheets']
@@ -19,8 +13,6 @@ def get_client():
 
     client = gspread.service_account_from_dict(g_sheets_creds)
     return client
-
-
 
 #Configuração de Página
 st.set_page_config(
@@ -123,28 +115,36 @@ def Venda():
      
     with st.form(key='venda'):
         #Restante das informações de venda
-        valorreal = st.number_input('Valor Real da Venda:', value=valorpago)
+        valorreal_aux = st.number_input('Valor Real da Venda:', value=valorpago)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix","Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
-
         botao_vendido = st.form_submit_button('Vendido')
-    
-
+        
     #Atualiza planilhas
     if botao_vendido:
-        #Calculo do lucro
-        if porcentagem == 0:  
-            lucro = valorreal
-            retorno = 0
-        else:
-            lucro = valorreal - (((100-porcentagem)*valorreal)/100)
-            retorno = valorreal - ((porcentagem)*valorreal)/100
-                
-        #Faz dataframe
-        venda = [valorreal, lucro, pagamento, retorno, date]
         if (codigo == "") or (pagamento == "Select") or (valorreal == 0):
             st.write("Preencha todas as informações para realizar a venda")
-        else:
+        else:   
+            #Aplica taxas maquininha
+            if pagamento == "Crédito":
+                taxa = 0.0498
+            elif pagamento == "Débito":
+                taxa = 0.0199
+            elif pagamento == "Pix":
+                taxa = 0.0049
+            #Calculo do valor com as taxas
+            valorreal = valorreal_aux - (valorreal_aux*taxa)
+            #Calculo do valor com as porcentagens de consignação
+            if porcentagem == 0:
+                valorfinal = valorreal
+                retorno = 0
+            else:
+                valorfinal = valorreal - (((100-porcentagem)*valorreal)/100)
+                retorno = valorreal - ((porcentagem)*valorreal)/100
+                
+            #Faz dataframe
+            venda = [valorreal_aux, pagamento, taxa, valorreal, valorfinal, retorno, date]
+
             #Substitui status e atualiza planilhas
             for i in range(len(data)):
                 if data[i] == "Disponivel":
