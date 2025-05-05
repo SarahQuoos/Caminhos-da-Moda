@@ -253,6 +253,7 @@ with st.expander("Conferir Despesas"):
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
+    st.write("MAIO 2025"):
     #Formatando coluna de data
     listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
     time.sleep(0.5)
@@ -261,10 +262,6 @@ with st.expander("Conferir Lucro Mensal"):
     listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
     
     #Definindo mes de visualização
-
-    df = listaprodutos[(listaprodutos['Data de Cadastro']>dpd.Timestamp(1,5,2025)) & (listaprodutos['Data de Cadastro']<pd.Timestamp.date(31,5,2025))]
-    st.write(df)
-    
     start_date = pd.to_datetime('2025-05-01')
     end_date = pd.to_datetime('2025-05-31')
     
