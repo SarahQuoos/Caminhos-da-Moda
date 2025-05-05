@@ -71,7 +71,12 @@ def Cadastro():
         valorpago = st.number_input('Valor Pago na peça:')
         valoretorno = st.number_input('Porcentagem Consignação:')
         date = datetime.today().strftime('%d-%m-%Y')
-    
+
+        #Sugestão valor de venda
+        if valorpago != 0:
+            valor_sugestao = ((valorpago*1.5)*1.05)+5
+            st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+            
         #Faz dataframe
         cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno,date]
         
