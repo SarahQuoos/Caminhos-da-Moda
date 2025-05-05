@@ -231,32 +231,24 @@ with st.sidebar:
     if st.checkbox ("Modo Feira"):
         Modofeira()
 
-#Visualização de Despesas e produtos vendidos
-#st.markdown("### Consulta produtos vendidos")
-#if st.checkbox("Conferir vendas"):
-#    sheet2 = arquivo.worksheet("Vendas")
-#    data2 = sheet2.get_all_values()
-#    colunas2 = data2.pop(0)
-#    listavendas = pd.DataFrame(data2,columns=colunas2)
-#    st.write(listavendas)
-
-#Visualização de Despesas e produtos vendidos
+#Visualização de produtos vendidos
 st.markdown("### Consulta produtos vendidos")
 sheet2 = arquivo.worksheet("Vendas")
 data2 = sheet2.get_all_values()
 colunas2 = data2.pop(0)
 listavendas = pd.DataFrame(data2,columns=colunas2)
-with st.expander("Visualizar Tabela de Resultados"):
+with st.expander("Conferir vendas"):
     query = st.text_input("Conferir vendas")
     if query:
         mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
         listavendas = listavendas[mask]
     st.data_editor(listavendas,hide_index=True,) 
 
+#Visualização de Despesas
 st.markdown("### Consulta das despesas")
-if st.checkbox("Conferir Despesas"):
-    sheet4 = arquivo.worksheet("Despesas")
-    data4 = sheet4.get_all_values()
-    colunas4 = data4.pop(0)
-    listadespesas = pd.DataFrame(data4,columns=colunas4)    
+sheet4 = arquivo.worksheet("Despesas")
+data4 = sheet4.get_all_values()
+colunas4 = data4.pop(0)
+listadespesas = pd.DataFrame(data4,columns=colunas4)    
+with st.expander("Conferir Despesas"):
     st.write(listadespesas)
