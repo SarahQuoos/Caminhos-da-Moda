@@ -253,7 +253,7 @@ with st.expander("Conferir Despesas"):
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    st.write("MAIO 2025")
+    st.markdown("MAIO 2025")
     #Formatando coluna de data
     listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
     time.sleep(0.5)
