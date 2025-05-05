@@ -159,29 +159,66 @@ def Venda():
             #atulizando a pagina
             st.rerun()
 
-#Rotina de cadastro de despezas mensais
-def Despezas():
-    #ano =  st.selectbox("Selecione o Ano:",("Select", "2024","2025"),)
-    #mes = st.selectbox("Selecione o Mês:",("Select", "Janeiro","Fevereiro","Março","Abril", "Maio", "Junho", "Julho"),)
+#Rotina de cadastro de despesas mensais
+def Despesas():
     date = datetime.today().strftime('%d-%m-%Y')
-    des = st.text_input('Informe a Descrição da Despeza:')
-    valor = st.number_input('Valor da Despeza:')
-    
+    des = st.text_input('Informe a Descrição da Despesa:')
+    valor = st.number_input('Valor da Despesa:')
     
     #Faz dataframe
-    despeza = [date, des, valor]
+    despesa = [date, des, valor]
     
     #Abrindo arquivo excel
     arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
-    sheet4 = arquivo.worksheet("Despezas")
+    sheet4 = arquivo.worksheet("Despesas")
     
     if st.button("Cadastrar", key='cadastrar_despesa'):
         if (des == "") or (valor == 0):
             st.write("Preencha todas as informações para cadastro")
         else:
-            sheet4.append_row(despeza)
-            st.write("Despeza cadastrada com sucesso!")
-                
+            sheet4.append_row(despesa)
+            st.write("Despesa cadastrada com sucesso!")
+
+#Rotina do Modo Feira
+def Modofeira():
+    arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
+    sheet6 = arquivo.worksheet("Modo Feira")
+
+    with st.form(key='Modo Feira'):
+        with st.expander("Item 1"):
+            codigo1 = st.text_input('Qual é o Código?')
+            valor1 = st.number_input('Valor Peça:', value=0)  
+        with st.expander("Item 2"):
+            codigo2 = st.text_input('Qual é o Código?')
+            valor2 = st.number_input('Valor Peça:', value=0)  
+         with st.expander("Item 3"):
+            codigo3 = st.text_input('Qual é o Código?')
+            valor3 = st.number_input('Valor Peça:', value=0) 
+         with st.expander("Item 4"):
+            codigo4 = st.text_input('Qual é o Código?')
+            valor4 = st.number_input('Valor Peça:', value=0) 
+        with st.expander("Item 5"):
+            codigo5 = st.text_input('Qual é o Código?')
+            valor5 = st.number_input('Valor Peça:', value=0) 
+
+    valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
+    valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
+    pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
+    
+    #Faz dataframe
+    cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
+        
+    #Cadastro venda feira na planilha
+    if st.form_submit_button("Venda Feira"):
+        if (pagamento == "Select") or (valor_final == 0):
+            st.write("Preencha todas as informações!")
+        else:
+            sheet6.append_row(cadastro_feira)
+            st.write("Produto cadastrado com sucesso!")
+            #atualizando a página
+            time.sleep(1.0)
+            st.rerun()
+
 #Menu de opções
 with st.sidebar:
     st.title("Opções e Serviços")
@@ -189,22 +226,35 @@ with st.sidebar:
         Cadastro()
     if st.checkbox ("Vendas"):
         Venda()
-    if st.checkbox ("Despezas"):
-        Despezas()
+    if st.checkbox ("Despesas"):
+        Despesas()
+    if st.checkbox ("Modo Feira"):
+        Modofeira()
 
-#Visualização de Despezas e produtos vendidos
-st.markdown("### Consulta produtos vendidos")
-if st.checkbox("Conferir vendas"):
-    sheet2 = arquivo.worksheet("Vendas")
-    data2 = sheet2.get_all_values()
-    colunas2 = data2.pop(0)
-    listavendas = pd.DataFrame(data2,columns=colunas2)
-    st.write(listavendas)
+#Visualização de Despesas e produtos vendidos
+#st.markdown("### Consulta produtos vendidos")
+#if st.checkbox("Conferir vendas"):
+#    sheet2 = arquivo.worksheet("Vendas")
+#    data2 = sheet2.get_all_values()
+#    colunas2 = data2.pop(0)
+#    listavendas = pd.DataFrame(data2,columns=colunas2)
+#    st.write(listavendas)
 
-st.markdown("### Consulta das despezas")
-if st.checkbox("Conferir Despezas"):
-    sheet4 = arquivo.worksheet("Despezas")
+#Visualização de Despesas e produtos vendidos
+sheet2 = arquivo.worksheet("Vendas")
+data2 = sheet2.get_all_values()
+colunas2 = data2.pop(0)
+listavendas = pd.DataFrame(data2,columns=colunas2)
+query = st.text_input("Conferir vendas")
+if query:
+    mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
+    listavendas = listavendas[mask]
+st.data_editor(listavendas,hide_index=True,) 
+
+st.markdown("### Consulta das despesas")
+if st.checkbox("Conferir Despesas"):
+    sheet4 = arquivo.worksheet("Despesas")
     data4 = sheet4.get_all_values()
     colunas4 = data4.pop(0)
-    listadespezas = pd.DataFrame(data4,columns=colunas4)    
-    st.write(listadespezas)
+    listadespesas = pd.DataFrame(data4,columns=colunas4)    
+    st.write(listadespesas)
