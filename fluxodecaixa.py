@@ -241,14 +241,16 @@ with st.sidebar:
 #    st.write(listavendas)
 
 #Visualização de Despesas e produtos vendidos
+st.markdown("### Consulta produtos vendidos")
 sheet2 = arquivo.worksheet("Vendas")
 data2 = sheet2.get_all_values()
 colunas2 = data2.pop(0)
 listavendas = pd.DataFrame(data2,columns=colunas2)
-query = st.text_input("Conferir vendas")
-if query:
-    mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
-    listavendas = listavendas[mask]
+if st.checkbox("Conferir vendas"):
+    query = st.text_input("Conferir vendas")
+    if query:
+        mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
+        listavendas = listavendas[mask]
 st.data_editor(listavendas,hide_index=True,) 
 
 st.markdown("### Consulta das despesas")
