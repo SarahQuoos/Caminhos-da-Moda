@@ -116,7 +116,7 @@ def Venda():
     with st.form(key='venda'):
         #Restante das informações de venda
         valorreal_aux = st.number_input('Valor Real da Venda:', value=valorpago)
-        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix","Crédito","Débito","Dinheiro"),)
+        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
         
@@ -130,8 +130,10 @@ def Venda():
                 taxa = 0.0498
             elif pagamento == "Débito":
                 taxa = 0.0199
-            elif pagamento == "Pix":
+            elif pagamento == "Pix Maquininha":
                 taxa = 0.0049
+            elif pagamento == "Pix CPF":
+                taxa = 0
             #Calculo do valor com as taxas
             valorreal = valorreal_aux - (valorreal_aux*taxa)
             #Calculo do valor com as porcentagens de consignação
@@ -143,7 +145,7 @@ def Venda():
                 retorno = valorreal - ((porcentagem)*valorreal)/100
                 
             #Faz dataframe
-            venda = [valorreal_aux, pagamento, taxa, valorreal, valorfinal, retorno, date]
+            venda = [valorreal_aux, pagamento, taxa, valorreal, retorno, valorfinal, date]
 
             #Substitui status e atualiza planilhas
             for i in range(len(data)):
