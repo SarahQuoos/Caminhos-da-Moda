@@ -253,12 +253,34 @@ with st.expander("Conferir Despesas"):
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
+    #Formatando coluna de data
+    listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
+    time.sleep(0.5)
+    listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
+    time.sleep(0.5)
     listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
-    start_date = pd.to_datetime('2025-01-01')
-    end_date = pd.to_datetime('2025-01-31')
-    filtered_df = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
-    filtered_df['Valor Despesa'] = pd.to_numeric(filtered_df['Valor Despesa'], errors='ignore')
-    column_sum = filtered_df['Valor Despesa'].sum()
-    st.write(filtered_df)
-    st.write(column_sum)
-    #st.metric(label="Valor Total Despezas", value=f"{'R$ {:,.2f}'.format(column_sum)} ",)
+    
+    #Definindo mes de visualização
+    start_date = pd.to_datetime('2025-05-01')
+    end_date = pd.to_datetime('2025-05-31')
+    
+    #Filtrando e convertendo valores
+    filtered_pecas = listaprodutos[(listaprodutos['Data de Cadastro'] >= start_date) & (listaprodutos['Data de Cadastro'] <= end_date)]
+    filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
+    time.sleep(0.5)
+    filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
+    filtered_vendas['Valor Líquido'] = pd.to_numeric(filtered_vendas['Valor Líquido'], errors='ignore')
+    time.sleep(0.5)
+    filtered_despesas = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
+    filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
+    
+    #Contas
+    pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
+    vendas_sum = filtered_vendas['Valor Líquido'].sum()
+    despesas_sum = filtered_despesas['Valor Despesa'].sum()
+    lucro = vendas_sum - pecas_sum - despesas_sum
+    
+    #Visualização
+    st.write(filtered_pecas)
+    st.metric(label="Lucro Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
+    #st.write(column_sum)
