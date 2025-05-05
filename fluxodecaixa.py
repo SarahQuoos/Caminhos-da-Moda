@@ -184,27 +184,27 @@ def Modofeira():
     arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
     sheet6 = arquivo.worksheet("Modo Feira")
 
-    with st.form(key='Modo Feira'):
-        with st.expander("Item 1"):
-            codigo1 = st.text_input('Código Peça 1:')
-            valor1 = st.number_input('Valor Peça 1:', value=0.00)  
-        with st.expander("Item 2"):
-            codigo2 = st.text_input('Código Peça 2:')
-            valor2 = st.number_input('Valor Peça 2:', value=0.00)  
-        with st.expander("Item 3"):
-            codigo3 = st.text_input('Código Peça 3:')
-            valor3 = st.number_input('Valor Peça 3:', value=0.00)
-        with st.expander("Item 4"):
-            codigo4 = st.text_input('Código Peça 4:')
-            valor4 = st.number_input('Valor Peça 4:', value=0.00)
-        with st.expander("Item 5"):
-            codigo5 = st.text_input('Código Peça 5:')
-            valor5 = st.number_input('Valor Peça 5:', value=0.00)  
-        valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
-        valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
-        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
-        botao_feira = st.form_submit_button('Venda_Feira')
-    if botao_feira:
+    with st.expander("Item 1"):
+        codigo1 = st.text_input('Código Peça 1:')
+        valor1 = st.number_input('Valor Peça 1:', value=0.00)  
+    with st.expander("Item 2"):
+        codigo2 = st.text_input('Código Peça 2:')
+        valor2 = st.number_input('Valor Peça 2:', value=0.00)  
+    with st.expander("Item 3"):
+        codigo3 = st.text_input('Código Peça 3:')
+        valor3 = st.number_input('Valor Peça 3:', value=0.00)
+    with st.expander("Item 4"):
+        codigo4 = st.text_input('Código Peça 4:')
+        valor4 = st.number_input('Valor Peça 4:', value=0.00)
+    with st.expander("Item 5"):
+        codigo5 = st.text_input('Código Peça 5:')
+        valor5 = st.number_input('Valor Peça 5:', value=0.00)  
+        
+    valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
+    valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
+    pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
+    
+    if st.button("Venda_Feira"):
         if (pagamento == "Select") or (valor_final == 0):
             st.write("Preencha todas as informações!")
         else:
