@@ -27,11 +27,8 @@ st.title("Fluxo de Caixa Caminhos da Moda")
 
 #Subtítulo
 st.markdown("### Consulta produtos disponíveis")
-
-#Abrindo arquivo no drive e transformando em dataframe no pandas
 arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
 sheet = arquivo.worksheet("Lista Produtos")
-
 data = sheet.get_all_values()
 colunas = data.pop(0)
 listaprodutos = pd.DataFrame(data,columns=colunas)
@@ -39,12 +36,12 @@ listaprodutos = pd.DataFrame(data,columns=colunas)
 arquivo.client.session.close()
 
 #Fazendo filtro
-query = st.text_input("Filtro")
-if query:
-    mask = listaprodutos.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
-    listaprodutos = listaprodutos[mask]
-
-st.data_editor(listaprodutos,hide_index=True,) 
+with st.expander("Conferir estoque"):
+    query = st.text_input("Filtro")
+    if query:
+        mask = listaprodutos.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
+        listaprodutos = listaprodutos[mask]
+    st.data_editor(listaprodutos,hide_index=True,) 
 
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
