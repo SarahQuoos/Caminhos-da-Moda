@@ -276,11 +276,14 @@ with st.expander("Conferir Lucro Mensal"):
     
     #Contas
     pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
+    st.write(pecas_sum)
     vendas_sum = filtered_vendas['Valor Líquido'].sum()
+    st.write(vendas_sum)
     despesas_sum = filtered_despesas['Valor Despesa'].sum()
-    lucro = vendas_sum - pecas_sum - despesas_sum
+    st.write(despesas_sum)
+    #lucro = vendas_sum - pecas_sum - despesas_sum
     
     #Visualização
-    st.write(filtered_pecas)
-    st.metric(label="Lucro Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
+    #st.write(filtered_pecas)
+    #st.metric(label="Lucro Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
     #st.write(column_sum)
