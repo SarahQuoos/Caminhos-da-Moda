@@ -185,7 +185,6 @@ def Modofeira():
     sheet6 = arquivo.worksheet("Modo Feira")
 
     with st.form(key='Modo Feira'):
-        
         with st.expander("Item 1"):
             codigo1 = st.text_input('Qual é o Código?')
             valor1 = st.number_input('Valor Peça:', value=0)  
@@ -201,7 +200,6 @@ def Modofeira():
         with st.expander("Item 5"):
             codigo5 = st.text_input('Qual é o Código?')
             valor5 = st.number_input('Valor Peça:', value=0)
-            
         valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
         valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
