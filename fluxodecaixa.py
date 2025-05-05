@@ -270,21 +270,16 @@ with st.expander("Conferir Lucro Mensal"):
     time.sleep(0.5)
     filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
     filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
-    #filtered_vendas['Valor Líquido'] = pd.to_numeric(filtered_vendas['Valor Líquido'], errors='ignore')
     time.sleep(0.5)
     filtered_despesas = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
     filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
     
     #Contas
     pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
-    st.write(pecas_sum)
     vendas_sum = filtered_vendas['Valor Líquido'].sum()
-    st.write(vendas_sum)
     despesas_sum = filtered_despesas['Valor Despesa'].sum()
-    st.write(despesas_sum)
     lucro = vendas_sum - pecas_sum - despesas_sum
     
     #Visualização
-    #st.write(filtered_pecas)
     st.metric(label="Lucro Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
-    #st.write(column_sum)
+
