@@ -270,6 +270,7 @@ with st.expander("Conferir Lucro Mensal"):
     time.sleep(0.5)
     filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
     filtered_vendas['Valor Líquido'] = pd.to_numeric(filtered_vendas['Valor Líquido'], errors='ignore')
+    st.write(filtered_vendas)
     time.sleep(0.5)
     filtered_despesas = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
     filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
