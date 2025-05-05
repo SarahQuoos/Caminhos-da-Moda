@@ -207,15 +207,15 @@ def Modofeira():
         
         cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
 
-        if botao_feira:
-            if (pagamento == "Select") or (valor_final == 0):
-                st.write("Preencha todas as informações!")
-            else:
-                sheet6.append_row(cadastro_feira)
-                st.write("Produto cadastrado com sucesso!")
-                #atualizando a página
-                time.sleep(1.0)
-                st.rerun()
+    if botao_feira:
+        if (pagamento == "Select") or (valor_final == 0):
+            st.write("Preencha todas as informações!")
+        else:
+            sheet6.append_row(cadastro_feira)
+            st.write("Produto cadastrado com sucesso!")
+            #atualizando a página
+            time.sleep(1.0)
+            st.rerun()
 
 #Menu de opções
 with st.sidebar:
