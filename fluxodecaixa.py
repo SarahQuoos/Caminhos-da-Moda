@@ -119,21 +119,22 @@ def Venda():
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
-        
+
+        #Aplica taxas maquininha
+        if pagamento == "Crédito":
+            taxa = 0.0498
+        elif pagamento == "Débito":
+            taxa = 0.0199
+        elif pagamento == "Pix Maquininha":
+            taxa = 0.0049
+        elif pagamento == "Pix CPF":
+            taxa = 0
+            
     #Atualiza planilhas
     if botao_vendido:
         if (codigo == "") or (pagamento == "Select") or (valorreal_aux == 0):
             st.write("Preencha todas as informações para realizar a venda")
         else:   
-            #Aplica taxas maquininha
-            if pagamento == "Crédito":
-                taxa = 0.0498
-            elif pagamento == "Débito":
-                taxa = 0.0199
-            elif pagamento == "Pix Maquininha":
-                taxa = 0.0049
-            elif pagamento == "Pix CPF":
-                taxa = 0
             #Calculo do valor com as taxas
             valorreal = valorreal_aux - (valorreal_aux*taxa)
             #Calculo do valor com as porcentagens de consignação
@@ -148,14 +149,12 @@ def Venda():
             venda = [valorreal_aux, pagamento, taxa, valorreal, retorno, valorfinal, date]
 
             #Substitui status e atualiza planilhas
-            time.sleep(1.0)
-            #for i in range(len(data)):
-            #    if data[i] == "Disponivel":
-            #        data[i] = "Vendido"
             data[0] = "Vendido"
             venda_new = data + venda
             sheet2.append_row(venda_new, value_input_option=gspread.utils.ValueInputOption.user_entered)
+            time.sleep(0.5)
             sheet1.delete_rows(linha)
+            time.sleep(0.5)
             st.write("Produto atualizado com sucesso!")
             #atulizando a pagina
             st.rerun()
