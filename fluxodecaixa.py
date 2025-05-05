@@ -248,10 +248,10 @@ with st.expander("Conferir vendas"):
 
 #Visualização de Despesas
 st.markdown("### Consulta das despesas")
-sheet4 = arquivo.worksheet("Despesas")
-data4 = sheet4.get_all_values()
-colunas4 = data4.pop(0)
-listadespesas = pd.DataFrame(data4,columns=colunas4)    
+sheet3 = arquivo.worksheet("Despesas")
+data3 = sheet3.get_all_values()
+colunas3 = data3.pop(0)
+listadespesas = pd.DataFrame(data3,columns=colunas3)    
 with st.expander("Conferir Despesas"):
     st.write(listadespesas)
 
