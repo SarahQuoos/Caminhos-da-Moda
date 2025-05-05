@@ -197,20 +197,15 @@ def Modofeira():
         with st.expander("Item 4"):
             codigo4 = st.text_input('Qual é o Código?')
             valor4 = st.number_input('Valor Peça:', value=0) 
-        with st.expander("Item 5"):
-            codigo5 = st.text_input('Qual é o Código?')
-            valor5 = st.number_input('Valor Peça:', value=0)
-        valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
+        valor_final_aux = valor1 + valor2 + valor3 + valor4
         valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
-        botao_feira = st.form_submit_button('Venda_Feira')
-        
-        cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
-
-    if botao_feira:
+        #botao_feira = st.form_submit_button('Venda_Feira')
+    if st.form_submit_button('Venda_Feira'):
         if (pagamento == "Select") or (valor_final == 0):
             st.write("Preencha todas as informações!")
         else:
+            cadastro_feira = [codigo1, codigo2, codigo3, codigo4, pagamento, valor_final]
             sheet6.append_row(cadastro_feira)
             st.write("Produto cadastrado com sucesso!")
             #atualizando a página
