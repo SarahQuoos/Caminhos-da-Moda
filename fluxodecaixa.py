@@ -246,7 +246,7 @@ sheet2 = arquivo.worksheet("Vendas")
 data2 = sheet2.get_all_values()
 colunas2 = data2.pop(0)
 listavendas = pd.DataFrame(data2,columns=colunas2)
- with st.expander("Visualizar Tabela de Resultados"):
+with st.expander("Visualizar Tabela de Resultados"):
     query = st.text_input("Conferir vendas")
     if query:
         mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
