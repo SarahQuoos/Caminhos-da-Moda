@@ -157,7 +157,6 @@ def Venda():
             st.write("Produto atualizado com sucesso!")
             time.sleep(1.0)
             #atulizando a pagina
-            codigo = ""
             st.rerun()
 
 #Rotina de cadastro de despezas mensais
