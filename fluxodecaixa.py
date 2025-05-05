@@ -194,8 +194,8 @@ def Modofeira():
         valor_final_aux = valor1 + valor2
         valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
-        #botao_feira = st.form_submit_button('Venda_Feira')
-    if st.form_submit_button('Venda_Feira'):
+        botao_feira = st.form_submit_button('Venda_Feira')
+    if botao_feira:
         if (pagamento == "Select") or (valor_final == 0):
             st.write("Preencha todas as informações!")
         else:
