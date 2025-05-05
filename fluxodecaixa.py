@@ -269,6 +269,7 @@ with st.expander("Conferir Lucro Mensal"):
     filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
     time.sleep(0.5)
     filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
+    filtered_vendas['Valor Real de Venda'] = filtered_vendas['Valor Real de Venda'].str.replace(',', '.').astype(float)
     filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
     time.sleep(0.5)
     filtered_despesas = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
@@ -276,10 +277,16 @@ with st.expander("Conferir Lucro Mensal"):
     
     #Contas
     pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
-    vendas_sum = filtered_vendas['Valor Líquido'].sum()
+    vendas_liq_sum = filtered_vendas['Valor Líquido'].sum()
+    vendas_bru_sum = filtered_vendas['Valor Real de Venda'].sum()
     despesas_sum = filtered_despesas['Valor Despesa'].sum()
-    lucro = vendas_sum - pecas_sum - despesas_sum
+    lucro = vendas_liq_sum - pecas_sum - despesas_sum
     
     #Visualização
-    st.metric(label=" ", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
+    st.markdown("###") 
+    tab1, tab2, tab3, tab4 = st.columns(4)
+    tab1.metric(label="Gastos Compra de Peças", value=f"{'R$ {:,.2f}'.format(pecas_sum)} ",) 
+    tab2.metric(label="Despesas Gerais", value=f"{'R$ {:,.2f}'.format(despesas_sum)} ",)
+    tab3.metric(label="Ganho Bruto Vendas", value=f"{'R$ {:,.2f}'.format(vendas_bru_sum)} ",)
+    tab4.metric(label="Lucro Líquido Mensal", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
 
