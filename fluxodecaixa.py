@@ -201,23 +201,23 @@ def Modofeira():
             codigo5 = st.text_input('Qual é o Código?')
             valor5 = st.number_input('Valor Peça:', value=0) 
 
-    valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
-    valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
-    pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
-    
-    #Faz dataframe
-    cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
+        valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
+        valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
+        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         
-    #Cadastro venda feira na planilha
-    if st.form_submit_button("Venda Feira"):
-        if (pagamento == "Select") or (valor_final == 0):
-            st.write("Preencha todas as informações!")
-        else:
-            sheet6.append_row(cadastro_feira)
-            st.write("Produto cadastrado com sucesso!")
-            #atualizando a página
-            time.sleep(1.0)
-            st.rerun()
+        #Faz dataframe
+        cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
+            
+        #Cadastro venda feira na planilha
+        if st.form_submit_button("Venda Feira"):
+            if (pagamento == "Select") or (valor_final == 0):
+                st.write("Preencha todas as informações!")
+            else:
+                sheet6.append_row(cadastro_feira)
+                st.write("Produto cadastrado com sucesso!")
+                #atualizando a página
+                time.sleep(1.0)
+                st.rerun()
 
 #Menu de opções
 with st.sidebar:
