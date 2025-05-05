@@ -288,5 +288,5 @@ with st.expander("Conferir Lucro Mensal"):
     tab1.metric(label="Gastos Compra de Peças", value=f"{'R$ {:,.2f}'.format(pecas_sum)} ",) 
     tab2.metric(label="Despesas Gerais", value=f"{'R$ {:,.2f}'.format(despesas_sum)} ",)
     tab3.metric(label="Ganho Bruto Vendas", value=f"{'R$ {:,.2f}'.format(vendas_bru_sum)} ",)
-    tab4.metric(label="Lucro Líquido Mensal", value=f"{'R$ {:,.2f}'.format(economic_total_cost_meter)} ",)
+    tab4.metric(label="Lucro Líquido Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
 
