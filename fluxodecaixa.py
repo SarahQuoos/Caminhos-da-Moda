@@ -254,3 +254,13 @@ colunas4 = data4.pop(0)
 listadespesas = pd.DataFrame(data4,columns=colunas4)    
 with st.expander("Conferir Despesas"):
     st.write(listadespesas)
+
+#Calculo do Lucro
+st.markdown("### Consulta Lucro Mensal")
+    with st.expander("Conferir Lucro Mensal"):
+        df = pd.DataFrame(data4)
+        df['Data'] = pd.to_datetime(df['Data'])
+        start_date = pd.to_datetime('2024-01-01')
+        end_date = pd.to_datetime('2024-01-31')
+        filtered_df = df[(df['Data'] >= start_date) & (df['Data'] <= end_date)]
+        st.write(filtered_df)
