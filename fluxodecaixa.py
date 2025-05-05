@@ -61,7 +61,7 @@ def Cadastro():
         numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","36","38","40","42","44","46"),)
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
-            valor_sugestao = ((valorpago*1.5)*1.05)+5
+            valor_sugestao = (((valorpago*1.5)+5)*1.05)
             st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
