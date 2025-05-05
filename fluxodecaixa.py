@@ -281,5 +281,5 @@ with st.expander("Conferir Lucro Mensal"):
     lucro = vendas_sum - pecas_sum - despesas_sum
     
     #Visualização
-    st.metric(label="Lucro Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
+    st.metric(label=" ", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
 
