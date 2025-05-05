@@ -35,14 +35,6 @@ listaprodutos = pd.DataFrame(data,columns=colunas)
 
 arquivo.client.session.close()
 
-#Fazendo filtro
-with st.expander("Conferir estoque"):
-    query = st.text_input("Filtro")
-    if query:
-        mask = listaprodutos.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
-        listaprodutos = listaprodutos[mask]
-    st.data_editor(listaprodutos,hide_index=True,) 
-
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
     categoria = st.selectbox("Categoria:",("Select", "Biquini","Blazer","Blusa","Bolsa","Calça", "Camisa","Camiseta",
@@ -232,6 +224,14 @@ with st.sidebar:
         Despesas()
     if st.checkbox ("Modo Feira"):
         Modofeira()
+        
+#Visualização do Estoque
+with st.expander("Conferir estoque"):
+    query = st.text_input("Filtro")
+    if query:
+        mask = listaprodutos.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
+        listaprodutos = listaprodutos[mask]
+    st.data_editor(listaprodutos,hide_index=True,) 
 
 #Visualização de produtos vendidos
 st.markdown("### Consulta produtos vendidos")
