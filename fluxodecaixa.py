@@ -122,7 +122,7 @@ def Venda():
         
     #Atualiza planilhas
     if botao_vendido:
-        if (codigo == "") or (pagamento == "Select") or (valorreal == 0):
+        if (codigo == "") or (pagamento == "Select") or (valorreal_aux == 0):
             st.write("Preencha todas as informações para realizar a venda")
         else:   
             #Aplica taxas maquininha
