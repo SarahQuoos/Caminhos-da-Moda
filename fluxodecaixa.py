@@ -156,6 +156,7 @@ def Venda():
             sheet1.delete_rows(linha)
             st.write("Produto atualizado com sucesso!")
             #atulizando a pagina
+            codigo = ""
             st.rerun()
 
 #Rotina de cadastro de despezas mensais
