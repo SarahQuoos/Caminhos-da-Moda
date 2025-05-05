@@ -67,15 +67,19 @@ def Cadastro():
         produto = st.text_input('Descrição do Produto:')
         marca = st.text_input('Marca:')
         numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","36","38","40","42","44","46"),)
+        with st.expander("Revenda de peça?"): 
+            valorpago = st.number_input('Valor Pago na peça:', value=0.00)
+            valor_sugestao = ((valorpago*1.5)*1.05)+5
+            st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+        with st.expander("Peça Consignada?"):
+            valoretorno = st.number_input('Porcentagem Consignação:')
         valor = st.number_input('Valor de Venda:')
-        valorpago = st.number_input('Valor Pago na peça:')
-        valoretorno = st.number_input('Porcentagem Consignação:')
         date = datetime.today().strftime('%d-%m-%Y')
 
         #Sugestão valor de venda
-        if valorpago != 0:
-            valor_sugestao = ((valorpago*1.5)*1.05)+5
-            st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+        #if valorpago != 0:
+        #    valor_sugestao = ((valorpago*1.5)*1.05)+5
+        #    st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
             
         #Faz dataframe
         cadastro = [status, categoria, codigo, proprietario, produto, marca, numeracao, valor, valorpago, valoretorno,date]
