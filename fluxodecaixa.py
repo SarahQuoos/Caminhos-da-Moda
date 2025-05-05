@@ -257,6 +257,7 @@ with st.expander("Conferir Lucro Mensal"):
     start_date = pd.to_datetime('2025-01-01')
     end_date = pd.to_datetime('2025-01-31')
     filtered_df = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
+    filtered_df['Valor Despesa'] = pd.to_numeric(filtered_df['Valor Despesa'], errors='ignore')
     column_sum = filtered_df['Valor Despesa'].sum()
     st.write(filtered_df)
     st.write(column_sum)
