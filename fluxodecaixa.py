@@ -59,14 +59,13 @@ def Cadastro():
         produto = st.text_input('Descrição do Produto:')
         marca = st.text_input('Marca:')
         numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","34","35","36","37","38","40","42","44","46"),)
-        aux = 0
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
             valor_sugestao = (((valorpago*1.5)+5)*1.05)
             st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
-        valor = st.number_input('Valor de Venda:', value=aux)
+        valor = st.number_input('Valor de Venda:')
         date = datetime.today().strftime('%d-%m-%Y')
         
         #Faz dataframe
@@ -77,7 +76,6 @@ def Cadastro():
             if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0):
                 st.write("Preencha todas as informações para cadastro")
             else:
-                aux = 0
                 sheet1.append_row(cadastro)
                 st.write("Produto cadastrado com sucesso!")
                 #atualizando a página
@@ -237,11 +235,12 @@ data2 = sheet2.get_all_values()
 colunas2 = data2.pop(0)
 listavendas = pd.DataFrame(data2,columns=colunas2)
 with st.expander("Conferir vendas"):
-    query = st.text_input("Conferir vendas")
-    if query:
-        mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
-        listavendas = listavendas[mask]
-    st.data_editor(listavendas,hide_index=True,) 
+    if st.button("Carregar dados de vendas"):
+        query = st.text_input("Conferir vendas")
+        if query:
+            mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
+            listavendas = listavendas[mask]
+        st.data_editor(listavendas,hide_index=True,) 
 
 sheet3 = arquivo.worksheet("Despesas")
 data3 = sheet3.get_all_values()
@@ -251,7 +250,7 @@ listadespesas = pd.DataFrame(data3,columns=colunas3)
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    if st.button("Carregar dados"):
+    if st.button("Carregar dados de lucro"):
         #Formatando coluna de data
         listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
         time.sleep(0.5)
