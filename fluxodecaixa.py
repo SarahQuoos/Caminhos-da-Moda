@@ -39,7 +39,7 @@ arquivo.client.session.close()
 def Cadastro():
     categoria = st.selectbox("Categoria:",("Select","Biquini","Blazer","Blusa","Bolsa","Calça","Camisa","Camiseta",
                                            "Casaco","Chapéu","Cinto","Colete","Jaqueta","Macacão","Maiô","Outros",
-                                           "Pijama","Saia","Saída de Praia","Sapato","Shorts","TOP","Tênis","Vestido"),)
+                                           "Pijama","Saia","Saída de Praia","Sapato","Shorts","TOP","Vestido"),)
     
     #Abrindo arquivos no drive
     arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
@@ -58,15 +58,15 @@ def Cadastro():
         proprietario = st.text_input('Proprietária:')
         produto = st.text_input('Descrição do Produto:')
         marca = st.text_input('Marca:')
-        numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","36","38","40","42","44","46"),)
+        numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","34","35","36","37","38","40","42","44","46"),)
+        aux = 0
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
-            valor_sugestao_aux = (((valorpago*1.5)+5)*1.05)
-            valor_sugestao = st.number_input('Valor Pago na peça:', value=valor_sugestao_aux)
-            #st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+            valor_sugestao = (((valorpago*1.5)+5)*1.05)
+            st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
-        valor = st.number_input('Valor de Venda:')
+        valor = st.number_input('Valor de Venda:', value=aux)
         date = datetime.today().strftime('%d-%m-%Y')
         
         #Faz dataframe
@@ -77,6 +77,7 @@ def Cadastro():
             if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0):
                 st.write("Preencha todas as informações para cadastro")
             else:
+                aux = 0
                 sheet1.append_row(cadastro)
                 st.write("Produto cadastrado com sucesso!")
                 #atualizando a página
@@ -242,52 +243,44 @@ with st.expander("Conferir vendas"):
         listavendas = listavendas[mask]
     st.data_editor(listavendas,hide_index=True,) 
 
-#Visualização de Despesas
-st.markdown("### Consulta das despesas")
-sheet3 = arquivo.worksheet("Despesas")
-data3 = sheet3.get_all_values()
-colunas3 = data3.pop(0)
-listadespesas = pd.DataFrame(data3,columns=colunas3)    
-with st.expander("Conferir Despesas"):
-    st.write(listadespesas)
-
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    #Formatando coluna de data
-    listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
-    time.sleep(0.5)
-    listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
-    time.sleep(0.5)
-    listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
-    
-    #Definindo mes de visualização
-    start_date = pd.to_datetime('2025-05-01')
-    end_date = pd.to_datetime('2025-05-31')
-    
-    #Filtrando e convertendo valores
-    filtered_pecas = listaprodutos[(listaprodutos['Data de Cadastro'] >= start_date) & (listaprodutos['Data de Cadastro'] <= end_date)]
-    filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
-    time.sleep(0.5)
-    filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
-    filtered_vendas['Valor Real de Venda'] = filtered_vendas['Valor Real de Venda'].str.replace(',', '.').astype(float)
-    filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
-    time.sleep(0.5)
-    filtered_despesas = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
-    filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
-    
-    #Contas
-    pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
-    vendas_liq_sum = filtered_vendas['Valor Líquido'].sum()
-    vendas_bru_sum = filtered_vendas['Valor Real de Venda'].sum()
-    despesas_sum = filtered_despesas['Valor Despesa'].sum()
-    lucro = vendas_liq_sum - pecas_sum - despesas_sum
-    
-    #Visualização
-    st.markdown("###") 
-    tab1, tab2, tab3, tab4 = st.columns(4)
-    tab1.metric(label="Gastos Compra de Peças", value=f"{'R$ {:,.2f}'.format(pecas_sum)} ",) 
-    tab2.metric(label="Despesas Gerais", value=f"{'R$ {:,.2f}'.format(despesas_sum)} ",)
-    tab3.metric(label="Ganho Bruto Vendas", value=f"{'R$ {:,.2f}'.format(vendas_bru_sum)} ",)
-    tab4.metric(label="Lucro Líquido Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
+    if st.button("Carregar dados"):
+        #Formatando coluna de data
+        listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
+        time.sleep(0.5)
+        listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
+        time.sleep(0.5)
+        listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
+        
+        #Definindo mes de visualização
+        start_date = pd.to_datetime('2025-05-01')
+        end_date = pd.to_datetime('2025-05-31')
+        
+        #Filtrando e convertendo valores
+        filtered_pecas = listaprodutos[(listaprodutos['Data de Cadastro'] >= start_date) & (listaprodutos['Data de Cadastro'] <= end_date)]
+        filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
+        time.sleep(0.5)
+        filtered_vendas = listavendas[(listavendas['Data de Venda'] >= start_date) & (listavendas['Data de Venda'] <= end_date)]
+        filtered_vendas['Valor Real de Venda'] = filtered_vendas['Valor Real de Venda'].str.replace(',', '.').astype(float)
+        filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
+        time.sleep(0.5)
+        filtered_despesas = listadespesas[(listadespesas['Data'] >= start_date) & (listadespesas['Data'] <= end_date)]
+        filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
+        
+        #Contas
+        pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
+        vendas_liq_sum = filtered_vendas['Valor Líquido'].sum()
+        vendas_bru_sum = filtered_vendas['Valor Real de Venda'].sum()
+        despesas_sum = filtered_despesas['Valor Despesa'].sum()
+        lucro = vendas_liq_sum - pecas_sum - despesas_sum
+        
+        #Visualização
+        st.markdown("###") 
+        tab1, tab2, tab3, tab4 = st.columns(4)
+        tab1.metric(label="Gastos Compra de Peças", value=f"{'R$ {:,.2f}'.format(pecas_sum)} ",) 
+        tab2.metric(label="Despesas Gerais", value=f"{'R$ {:,.2f}'.format(despesas_sum)} ",)
+        tab3.metric(label="Ganho Bruto Vendas", value=f"{'R$ {:,.2f}'.format(vendas_bru_sum)} ",)
+        tab4.metric(label="Lucro Líquido Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
 
