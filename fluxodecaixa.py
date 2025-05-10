@@ -37,9 +37,9 @@ arquivo.client.session.close()
 
 #Rotina Cadastro categoria e geração de código
 def Cadastro():
-    categoria = st.selectbox("Categoria:",("Select", "Biquini","Blazer","Blusa","Bolsa","Calça", "Camisa","Camiseta",
-                                           "Casaco","Chapéu","Cinto","Colete", "Jaqueta","Macacão","Maiô", "Outros",
-                                           "Pijama","Saia","Saída de Praia","Shorts","TOP", "Vestido"),)
+    categoria = st.selectbox("Categoria:",("Select","Biquini","Blazer","Blusa","Bolsa","Calça","Camisa","Camiseta",
+                                           "Casaco","Chapéu","Cinto","Colete","Jaqueta","Macacão","Maiô","Outros",
+                                           "Pijama","Saia","Saída de Praia","Sapato","Shorts","TOP","Tênis","Vestido"),)
     
     #Abrindo arquivos no drive
     arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
@@ -61,8 +61,9 @@ def Cadastro():
         numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","36","38","40","42","44","46"),)
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
-            valor_sugestao = (((valorpago*1.5)+5)*1.05)
-            st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+            valor_sugestao_aux = (((valorpago*1.5)+5)*1.05)
+            valor_sugestao = st.number_input('Valor Pago na peça:', value=valor_sugestao_aux)
+            #st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
         valor = st.number_input('Valor de Venda:')
