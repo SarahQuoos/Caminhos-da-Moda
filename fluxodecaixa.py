@@ -243,6 +243,11 @@ with st.expander("Conferir vendas"):
         listavendas = listavendas[mask]
     st.data_editor(listavendas,hide_index=True,) 
 
+sheet3 = arquivo.worksheet("Despesas")
+data3 = sheet3.get_all_values()
+colunas3 = data3.pop(0)
+listadespesas = pd.DataFrame(data3,columns=colunas3)
+
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
