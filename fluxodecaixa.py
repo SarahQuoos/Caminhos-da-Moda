@@ -279,7 +279,7 @@ with st.expander("Conferir Lucro Mensal"):
         filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
         time.sleep(0.5)
         filtered_despesas = listadespesas[listadespesas['Mês/Ano'] == mes_escolhido]
-        filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
+        filtered_despesas['Valor Despesa'] = filtered_despesas['Valor Despesa'].str.replace(',', '.').astype(float)
         
         #start_date = pd.to_datetime('2025-05-01')
         #end_date = pd.to_datetime('2025-05-31')
