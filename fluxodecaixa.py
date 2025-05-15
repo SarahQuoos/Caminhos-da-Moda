@@ -250,25 +250,26 @@ listadespesas = pd.DataFrame(data3,columns=colunas3)
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
+    #listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
+    listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
+    listavendas['Mês/Ano'] = listavendas['Data de Venda'].dt.strftime('%B/%Y')
+    time.sleep(0.5)
+
+    #Definindo mes de visualização
+    meses_disponiveis = listavendas['Mês/Ano'].unique()
+    mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
+    
     if st.button("Carregar dados de lucro"):
         #Formatando coluna de data
         #listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
         listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
         listaprodutos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
         time.sleep(0.5)
-        #listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
-        listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
-        listavendas['Mês/Ano'] = listavendas['Data de Venda'].dt.strftime('%B/%Y')
-        time.sleep(0.5)
         #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
         listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
         listadespesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
         time.sleep(0.5)
 
-        #Definindo mes de visualização
-        meses_disponiveis = listavendas['Mês/Ano'].unique()
-        mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
-        
         #Filtrando dados
         filtered_pecas = listaprodutos[listaprodutos['Mês/Ano'] == mes_escolhido]
         filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
