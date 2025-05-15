@@ -253,27 +253,33 @@ with st.expander("Conferir Lucro Mensal"):
     if st.button("Carregar dados de lucro"):
         #Formatando coluna de data
         #listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
-        listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%m-%Y')
+        listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
+        produtos['Mês/Ano'] =  listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y').str.capitalize()
         time.sleep(0.5)
+        
         #listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
-        listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%m-%Y')
+        listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
+        vendas['Mês/Ano'] =  listavendas['Data de Venda'].dt.strftime('%B/%Y').str.capitalize()
         time.sleep(0.5)
+        
         #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
-        listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%m-%Y')
+        listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
+        despesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y').str.capitalize()
+        time.sleep(0.5)
         
         #Definindo mes de visualização
-        meses_disponiveis = listaprodutos['Data de Cadastro'].unique()
+        meses_disponiveis = produtos['Mês/Ano'].unique()
         mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
         
         #Filtrando dados
-        filtered_pecas = listaprodutos[listaprodutos['Data de Cadastro'] == mes_escolhido]
+        filtered_pecas = produtos[produtos['Mês/Ano'] == mes_escolhido]
         filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
         time.sleep(0.5)
-        filtered_vendas = listavendas[listavendas['Data de Venda'] == mes_escolhido]
+        filtered_vendas = vendas[vendas['Data de Venda'] == mes_escolhido]
         filtered_vendas['Valor Real de Venda'] = filtered_vendas['Valor Real de Venda'].str.replace(',', '.').astype(float)
         filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
         time.sleep(0.5)
-        filtered_despesas = listadespesas[listadespesas['Data'] == mes_escolhido]
+        filtered_despesas = despesas[despesas['Data'] == mes_escolhido]
         filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
         
         #start_date = pd.to_datetime('2025-05-01')
