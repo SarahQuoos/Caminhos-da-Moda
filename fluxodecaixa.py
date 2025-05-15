@@ -254,22 +254,20 @@ with st.expander("Conferir Lucro Mensal"):
         #Formatando coluna de data
         #listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], format='%d-%m-%Y')
         listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
-        produtos['Mês/Ano'] =  listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y').str.capitalize()
+        produtos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
         time.sleep(0.5)
-        
         #listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], format='%d-%m-%Y')
         listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
-        vendas['Mês/Ano'] =  listavendas['Data de Venda'].dt.strftime('%B/%Y').str.capitalize()
+        vendas['Mês/Ano'] = listavendas['Data de Venda'].dt.strftime('%B/%Y')
         time.sleep(0.5)
-        
         #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], format='%d-%m-%Y')
         listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
-        despesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y').str.capitalize()
+        despesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
         time.sleep(0.5)
-        
+
         #Definindo mes de visualização
-        meses_disponiveis = produtos['Mês/Ano'].unique()
-        mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
+        #meses_disponiveis = produtos['Mês/Ano'].unique()
+        mes_escolhido = st.selectbox("Selecione o mês:", sorted(produtos['Mês/Ano'].unique()))
         
         #Filtrando dados
         filtered_pecas = produtos[produtos['Mês/Ano'] == mes_escolhido]
