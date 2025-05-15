@@ -248,8 +248,8 @@ colunas3 = data3.pop(0)
 listadespesas = pd.DataFrame(data3,columns=colunas3)
 
 #Calculo do Lucro
-st.markdown("### Consulta Lucro Mensal")
-with st.expander("Conferir Lucro Mensal"):
+st.markdown("### Consulta Fluxo de Caixa")
+with st.expander("Conferir Fluxo de Caixa"):
     listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
     listadespesas['MêsInicio'] = listadespesas['Data'].dt.to_period('M').dt.to_timestamp()
     listadespesas['Mês/Ano'] = listadespesas['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
