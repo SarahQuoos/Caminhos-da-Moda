@@ -282,7 +282,6 @@ with st.expander("Conferir Lucro Mensal"):
 
         #Filtrando dados
         filtered_pecas = listaprodutos[listaprodutos['Mês/Ano'] == mes_escolhido]
-        #filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
         filtered_pecas['Valor Pago na peça'] = filtered_pecas['Valor Pago na peça'].str.replace(',', '.').astype(float)
         time.sleep(0.5)
         filtered_vendas = listavendas[listavendas['Mês/Ano'] == mes_escolhido]
@@ -290,8 +289,8 @@ with st.expander("Conferir Lucro Mensal"):
         filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
         time.sleep(0.5)
         filtered_despesas = listadespesas[listadespesas['Mês/Ano'] == mes_escolhido]
-        #filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
-        filtered_despesas['Valor Despesa'] = filtered_despesas['Valor Despesa'].str.replace(',', '.').astype(float)
+        filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
+        #filtered_despesas['Valor Despesa'] = filtered_despesas['Valor Despesa'].str.replace(',', '.').astype(float)
         
         #Contas
         pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
