@@ -282,9 +282,14 @@ with st.expander("Conferir Lucro Mensal"):
         
         #Visualização
         st.markdown("###") 
-        tab1, tab2, tab3, tab4 = st.columns(4)
-        tab1.metric(label="Gastos Compra de Peças", value=f"{'R$ {:,.2f}'.format(pecas_sum)} ",) 
-        tab2.metric(label="Despesas Gerais", value=f"{'R$ {:,.2f}'.format(despesas_sum)} ",)
-        tab3.metric(label="Ganho Bruto Vendas", value=f"{'R$ {:,.2f}'.format(vendas_bru_sum)} ",)
-        tab4.metric(label="Lucro Líquido Mensal", value=f"{'R$ {:,.2f}'.format(lucro)} ",)
 
+        pecas_sum_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        despesas_sum_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        vendas_bru_sum_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        lucro_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        
+        tab1, tab2, tab3, tab4 = st.columns(4)
+        tab1.metric(label="Gastos Compra de Peças", value=pecas_sum_formato)
+        tab2.metric(label="Despesas Gerais", value=despesas_sum_formato)
+        tab3.metric(label="Ganho Bruto Vendas", value=vendas_bru_sum_formato)
+        tab4.metric(label="Lucro Líquido Mensal", value=lucro_formato)
