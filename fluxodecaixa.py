@@ -251,15 +251,12 @@ listadespesas = pd.DataFrame(data3,columns=colunas3)
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
     listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
-    listadespesas['MêsInicio'] = listadespesas['Data'].dt.to_period('M').dt.to_timestamp()
-    listadespesas['Mês/Ano'] = listadespesas['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
-    meses_unicos = listadespesas[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
+    listadespesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
     time.sleep(0.5)
 
     #Definindo mes de visualização
-    #meses_disponiveis = listadespesas['Mês/Ano'].unique()
-    meses_unicos = listaprodutos[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
-    mes_escolhido = st.selectbox("Selecione o mês:", meses_unicos['Mês/Ano'])
+    meses_disponiveis = listadespesas['Mês/Ano'].unique()
+    mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
   
     if st.button("Carregar dados de lucro"):
         #Formatando coluna de data
