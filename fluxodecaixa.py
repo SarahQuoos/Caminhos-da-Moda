@@ -250,6 +250,7 @@ listadespesas = pd.DataFrame(data3,columns=colunas3)
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
+    listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
     listaprodutos['MêsInicio'] = listaprodutos['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
     listaprodutos['Mês/Ano'] = listaprodutos['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
     meses_unicos = listaprodutos[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
