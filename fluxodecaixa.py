@@ -250,21 +250,26 @@ listadespesas = pd.DataFrame(data3,columns=colunas3)
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
-    listadespesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
-    time.sleep(0.5)
+    listaprodutos['MêsInicio'] = listaprodutos['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
+    listaprodutos['Mês/Ano'] = listaprodutos['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
+    meses_unicos = listaprodutos[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
+    mes_escolhido = st.selectbox("Selecione o mês:", meses_unicos['Mês/Ano'])
 
     #Definindo mes de visualização
-    meses_disponiveis = listadespesas['Mês/Ano'].unique()
-    mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
+    #meses_disponiveis = listadespesas['Mês/Ano'].unique()
+    #mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
   
     if st.button("Carregar dados de lucro"):
         #Formatando coluna de data
         listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
         listavendas['Mês/Ano'] = listavendas['Data de Venda'].dt.strftime('%B/%Y')
         time.sleep(0.5)
-        listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
-        listaprodutos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
+        #listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
+        #listaprodutos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
+        #time.sleep(0.5)
+        listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
+        listadespesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
+        time.sleep(0.5)
 
         #Filtrando dados
         filtered_pecas = listaprodutos[listaprodutos['Mês/Ano'] == mes_escolhido]
@@ -276,7 +281,8 @@ with st.expander("Conferir Lucro Mensal"):
         filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
         time.sleep(0.5)
         filtered_despesas = listadespesas[listadespesas['Mês/Ano'] == mes_escolhido]
-        filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
+        #filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
+        filtered_despesas['Valor Despesa'] = filtered_despesas['Valor Despesa'].str.replace(',', '.').astype(float)
         
         #Contas
         pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
