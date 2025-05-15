@@ -269,17 +269,14 @@ with st.expander("Conferir Lucro Mensal"):
 
         #Filtrando dados
         filtered_pecas = listaprodutos[listaprodutos['Mês/Ano'] == mes_escolhido]
-        #filtered_pecas['Valor Pago na peça'] = filtered_pecas['Valor Pago na peça'].str.replace(',', '.').astype(float)
+        
         filtered_pecas['Valor Pago na peça'] = (filtered_pecas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
         filtered_vendas = listavendas[listavendas['Mês/Ano'] == mes_escolhido]
-        #filtered_vendas['Valor Real de Venda'] = filtered_vendas['Valor Real de Venda'].str.replace(',', '.').astype(float)
         filtered_vendas['Valor Real de Venda'] = (filtered_vendas['Valor Real de Venda'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
-        #filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
         filtered_vendas['Valor Líquido'] = (filtered_vendas['Valor Líquido'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
         filtered_despesas = listadespesas[listadespesas['Mês/Ano'] == mes_escolhido]
-        #filtered_despesas['Valor Despesa'] = filtered_despesas['Valor Despesa'].str.replace(',', '.').astype(float)
         filtered_despesas['Valor Despesa'] = (filtered_despesas['Valor Despesa'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
  
         #Contas
@@ -290,8 +287,6 @@ with st.expander("Conferir Lucro Mensal"):
         lucro = vendas_liq_sum - pecas_sum - despesas_sum
         
         #Visualização
-        st.markdown("###") 
-
         pecas_sum_formato = f"R${pecas_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         despesas_sum_formato = f"R${despesas_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         vendas_bru_sum_formato = f"R${vendas_bru_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
