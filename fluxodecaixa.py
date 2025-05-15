@@ -283,10 +283,10 @@ with st.expander("Conferir Lucro Mensal"):
         #Visualização
         st.markdown("###") 
 
-        pecas_sum_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        despesas_sum_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        vendas_bru_sum_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        lucro_formato = f"R${economic_total_cost_meter:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        pecas_sum_formato = f"R${pecas_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        despesas_sum_formato = f"R${despesas_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        vendas_bru_sum_formato = f"R${vendas_bru_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        lucro_formato = f"R${lucro:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         
         tab1, tab2, tab3, tab4 = st.columns(4)
         tab1.metric(label="Gastos Compra de Peças", value=pecas_sum_formato)
