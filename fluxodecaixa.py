@@ -250,12 +250,23 @@ listadespesas = pd.DataFrame(data3,columns=colunas3)
 #Calculo do Lucro
 st.markdown("### Consulta Lucro Mensal")
 with st.expander("Conferir Lucro Mensal"):
-    listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
-    listaprodutos['MêsInicio'] = listaprodutos['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
-    listaprodutos['Mês/Ano'] = listaprodutos['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
-    meses_unicos = listaprodutos[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
+    #listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
+    #listaprodutos['MêsInicio'] = listaprodutos['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
+    #listaprodutos['Mês/Ano'] = listaprodutos['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
+    #Definindo mes de visualização
+    #meses_unicos = listaprodutos[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
+    #mes_escolhido = st.selectbox("Selecione o mês:", meses_unicos['Mês/Ano'])
+    
+    listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
+    listadespesas['MêsInicio'] = listadespesas['Data'].dt.to_period('M').dt.to_timestamp()
+    listadespesas['Mês/Ano'] = listadespesas['MêsInicio'].dt.strftime('%B/%Y').str.capitalize()
+    #Definindo mes de visualização
+    meses_unicos = listadespesas[['Mês/Ano', 'MêsInicio']].drop_duplicates().sort_values('MêsInicio')
     mes_escolhido = st.selectbox("Selecione o mês:", meses_unicos['Mês/Ano'])
-
+    
+    #listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
+    #listadespesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
+    #time.sleep(0.5)
     #Definindo mes de visualização
     #meses_disponiveis = listadespesas['Mês/Ano'].unique()
     #mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
@@ -265,11 +276,8 @@ with st.expander("Conferir Lucro Mensal"):
         listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
         listavendas['Mês/Ano'] = listavendas['Data de Venda'].dt.strftime('%B/%Y')
         time.sleep(0.5)
-        #listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
-        #listaprodutos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
-        #time.sleep(0.5)
-        listadespesas['Data'] = pd.to_datetime(listadespesas['Data'], dayfirst=True)
-        listadespesas['Mês/Ano'] = listadespesas['Data'].dt.strftime('%B/%Y')
+        listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
+        listaprodutos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
         time.sleep(0.5)
 
         #Filtrando dados
