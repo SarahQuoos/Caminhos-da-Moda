@@ -266,8 +266,8 @@ with st.expander("Conferir Lucro Mensal"):
         time.sleep(0.5)
 
         #Definindo mes de visualização
-        #meses_disponiveis = produtos['Mês/Ano'].unique()
-        mes_escolhido = st.selectbox("Selecione o mês:", sorted(produtos['Mês/Ano'].unique()))
+        meses_disponiveis = produtos['Mês/Ano'].unique()
+        mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
         
         #Filtrando dados
         filtered_pecas = produtos[produtos['Mês/Ano'] == mes_escolhido]
