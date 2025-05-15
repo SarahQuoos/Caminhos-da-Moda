@@ -266,18 +266,18 @@ with st.expander("Conferir Lucro Mensal"):
         time.sleep(0.5)
 
         #Definindo mes de visualização
-        meses_disponiveis = listaprodutos['Mês/Ano'].unique()
+        meses_disponiveis = listavendas['Mês/Ano'].unique()
         mes_escolhido = st.selectbox("Selecione o mês:", sorted(meses_disponiveis))
         
         #Filtrando dados
         filtered_pecas = listaprodutos[listaprodutos['Mês/Ano'] == mes_escolhido]
         filtered_pecas['Valor Pago na peça'] = pd.to_numeric(filtered_pecas['Valor Pago na peça'], errors='ignore')
         time.sleep(0.5)
-        filtered_vendas = filtered_despesas[filtered_despesas['Data de Venda'] == mes_escolhido]
+        filtered_vendas = listavendas[listavendas['Mês/Ano'] == mes_escolhido]
         filtered_vendas['Valor Real de Venda'] = filtered_vendas['Valor Real de Venda'].str.replace(',', '.').astype(float)
         filtered_vendas['Valor Líquido'] = filtered_vendas['Valor Líquido'].str.replace(',', '.').astype(float)
         time.sleep(0.5)
-        filtered_despesas = listadespesas[listadespesas['Data'] == mes_escolhido]
+        filtered_despesas = listadespesas[listadespesas['Mês/Ano'] == mes_escolhido]
         filtered_despesas['Valor Despesa'] = pd.to_numeric(filtered_despesas['Valor Despesa'], errors='ignore')
         
         #start_date = pd.to_datetime('2025-05-01')
