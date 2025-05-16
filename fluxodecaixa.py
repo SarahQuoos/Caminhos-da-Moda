@@ -318,14 +318,14 @@ with st.expander("Conferir Fluxo de Caixa"):
         dados_mensal['Mês/Ano_str'] = dados_mensal['Mês/Ano'].dt.strftime('%b/%Y')
         
         #Criando barras de ganhos e gastos
-        bar = alt.Chart(df_mensal).transform_fold(['Ganhos', 'Gastos com Peças', 'Despesas Fixas'],as_=['Tipo', 'Valor']).mark_bar().encode(
+        bar = alt.Chart(dados_mensal).transform_fold(['Ganhos', 'Gastos com Peças', 'Despesas Fixas'],as_=['Tipo', 'Valor']).mark_bar().encode(
             x=alt.X('Mês/Ano_str:N', title='Mês'),
             y=alt.Y('Valor:Q', title='R$'),
             color='Tipo:N')
         
         #Criando linha do lucro
-        line = alt.Chart(df_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
+        line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
 
         #Criando e montrando o gráfico
-        grafico = (bar + line).properties(width=700, height=400)
-        st.altair_chart(grafico)
+        grafico_final = (bar + line).properties(width=700, height=400)
+        st.altair_chart(grafico_final)
