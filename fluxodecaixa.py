@@ -3,6 +3,7 @@ import time
 import pandas as pd
 from datetime import datetime
 import gspread
+import altair as alt
 
 #Acesso a planilha banco de dados
 @st.cache_resource(ttl=60)
