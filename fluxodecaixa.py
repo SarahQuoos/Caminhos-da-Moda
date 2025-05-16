@@ -289,13 +289,13 @@ with st.expander("Conferir Fluxo de Caixa"):
         #Visualização
         pecas_sum_formato = f"R${pecas_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         despesas_sum_formato = f"R${despesas_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
-        vendas_bru_sum_formato = f"R${vendas_bru_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        vendas_liq_sum_formato = f"R${vendas_liq_sum:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         lucro_formato = f"R${lucro:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         
         tab1, tab2, tab3, tab4 = st.columns(4)
         tab1.metric(label="Gastos Compra de Peças", value=pecas_sum_formato)
         tab2.metric(label="Despesas Gerais", value=despesas_sum_formato)
-        tab3.metric(label="Ganho Bruto Vendas", value=vendas_bru_sum_formato)
+        tab3.metric(label="Ganho Líquido Vendas", value=vendas_liq_sum_formato)
         tab4.metric(label="Lucro Líquido Mensal", value=lucro_formato)
 
         #Gráfico de gastosxganhos e lucro por mes
@@ -303,3 +303,5 @@ with st.expander("Conferir Fluxo de Caixa"):
         pecas_mensais = filtered_pecas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
         despesas_mensais = filtered_despesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
         st.table(ganhos_mensais)
+        st.table(pecas_mensais)
+        st.table(despesas_mensais)
