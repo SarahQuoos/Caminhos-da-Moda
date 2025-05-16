@@ -297,3 +297,8 @@ with st.expander("Conferir Fluxo de Caixa"):
         tab2.metric(label="Despesas Gerais", value=despesas_sum_formato)
         tab3.metric(label="Ganho Bruto Vendas", value=vendas_bru_sum_formato)
         tab4.metric(label="Lucro Líquido Mensal", value=lucro_formato)
+
+        #Gráfico de gastosxganhos e lucro por mes
+        #df_mensal = df.groupby('Mês/Ano')[['Ganhos', 'Despesas', 'Lucro']].sum().reset_index()
+        df_mensal = listadespesas.groupby('Mês/Ano')[['Valor Despesa']].sum().reset_index()
+        st.table(df_mensal)
