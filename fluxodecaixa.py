@@ -302,6 +302,11 @@ with st.expander("Conferir Fluxo de Caixa"):
         ganhos_mensais = filtered_vendas.groupby('Mês/Ano')['Valor Líquido'].sum().reset_index()
         pecas_mensais = filtered_pecas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
         despesas_mensais = filtered_despesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
-        st.table(ganhos_mensais)
-        st.table(pecas_mensais)
-        st.table(despesas_mensais)
+
+        dados_mensal = pd.merge(ganhos_mensais, pecas_mensais, on='Mês/Ano', how='outer')
+        dados_mensal = pd.merge(dados_mensal, despesas_mensais, on='Mês/Ano', how='outer')
+
+        df_mensal = df_mensal.rename(columns={'Valor Líquido': 'Ganhos','Valor Pago na peça': 'Gastos com Peças','Valor Despesa': 'Despesas Fixas'})
+        df_mensal = df_mensal.fillna(0)
+
+        dados_mensal['Lucro'] = dados_mensal['Ganhos'] - dadaos_mensal['Gastos com Peças'] - dados_mensal['Despesas Fixas']
