@@ -314,6 +314,7 @@ with st.expander("Conferir Fluxo de Caixa"):
 
         #Calculo do lucro e pegando coluna de data
         dados_mensal['Lucro'] = dados_mensal['Ganhos'] - dados_mensal['Gastos com Peças'] - dados_mensal['Despesas Fixas']
+        dados_mensal['Mês/Ano'] = pd.to_datetime(dados_mensal['Mês/Ano'], errors='coerce')
         dados_mensal['Mês/Ano_str'] = dados_mensal['Mês/Ano'].dt.strftime('%b/%Y')
         
         #Criando barras de ganhos e gastos
