@@ -304,10 +304,27 @@ with st.expander("Conferir Fluxo de Caixa"):
         pecas_mensais = filtered_pecas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
         despesas_mensais = filtered_despesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
 
+        #Juntando os dados filtrados por mês
         dados_mensal = pd.merge(ganhos_mensais, pecas_mensais, on='Mês/Ano', how='outer')
         dados_mensal = pd.merge(dados_mensal, despesas_mensais, on='Mês/Ano', how='outer')
 
-        df_mensal = df_mensal.rename(columns={'Valor Líquido': 'Ganhos','Valor Pago na peça': 'Gastos com Peças','Valor Despesa': 'Despesas Fixas'})
-        df_mensal = df_mensal.fillna(0)
+        #Renomeando dados e colocando 0 no lugar de células vazias
+        dados_mensal = dados_mensal.rename(columns={'Valor Líquido': 'Ganhos','Valor Pago na peça': 'Gastos com Peças','Valor Despesa': 'Despesas Fixas'})
+        dados_mensal = dados_mensal.fillna(0)
 
-        dados_mensal['Lucro'] = dados_mensal['Ganhos'] - dadaos_mensal['Gastos com Peças'] - dados_mensal['Despesas Fixas']
+        #Calculo do lucro e pegando coluna de data
+        dados_mensal['Lucro'] = dados_mensal['Ganhos'] - dados_mensal['Gastos com Peças'] - dados_mensal['Despesas Fixas']
+        dados_mensal['Mês/Ano_str'] = dados_mensal['Mês/Ano'].dt.strftime('%b/%Y')
+        
+        #Criando barras de ganhos e gastos
+        bar = alt.Chart(df_mensal).transform_fold(['Ganhos', 'Gastos com Peças', 'Despesas Fixas'],as_=['Tipo', 'Valor']).mark_bar().encode(
+            x=alt.X('Mês/Ano_str:N', title='Mês'),
+            y=alt.Y('Valor:Q', title='R$'),
+            color='Tipo:N')
+        
+        #Criando linha do lucro
+        line = alt.Chart(df_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
+
+        #Criando e montrando o gráfico
+        grafico = (bar + line).properties(width=700, height=400)
+        st.altair_chart(grafico)
