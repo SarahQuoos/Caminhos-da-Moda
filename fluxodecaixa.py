@@ -205,9 +205,10 @@ def Modofeira():
             cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
             sheet6.append_row(cadastro_feira)
             st.write("Produto cadastrado com sucesso!")
+            st.session_state.number_input_value = 0.0
+            st.experimental_rerun()
             #atualizando a página
             time.sleep(1.0)
-            st.rerun()
 
 #Menu de opções
 with st.sidebar:
