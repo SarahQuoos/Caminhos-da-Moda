@@ -206,7 +206,7 @@ def Modofeira():
             sheet6.append_row(cadastro_feira)
             st.write("Produto cadastrado com sucesso!")
             st.session_state.number_input_value = 0.0
-            st.experimental_rerun()
+            st.rerun()
             #atualizando a página
             time.sleep(1.0)
 
