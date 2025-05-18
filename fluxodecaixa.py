@@ -109,7 +109,7 @@ def Venda():
      
     with st.form(key='venda'):
         #Restante das informações de venda
-        #valorreal_aux = st.number_input('Valor Real da Venda:', value=0)
+        valorreal_aux = st.number_input('Valor Real da Venda:', value=0)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
@@ -130,8 +130,7 @@ def Venda():
             st.write("Preencha todas as informações para realizar a venda")
         else:   
             #Calculo do valor com as taxas
-            #valorreal = valorpago - (valorreal_aux*taxa)
-            valorreal = valorpago - (valorpago*taxa)
+            valorreal = valorreal_aux - (valorreal_aux*taxa)
             #Calculo do valor com as porcentagens de consignação
             if porcentagem == 0:
                 valorfinal = valorreal
