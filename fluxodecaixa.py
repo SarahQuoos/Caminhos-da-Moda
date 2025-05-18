@@ -271,7 +271,6 @@ with st.expander("Conferir Fluxo de Caixa"):
 
         #Filtrando dados
         filtered_pecas = listaprodutos[listaprodutos['Mês/Ano'] == mes_escolhido]
-        
         filtered_pecas['Valor Pago na peça'] = (filtered_pecas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
         filtered_vendas = listavendas[listavendas['Mês/Ano'] == mes_escolhido]
@@ -301,9 +300,13 @@ with st.expander("Conferir Fluxo de Caixa"):
         tab4.metric(label="Lucro Líquido Mensal", value=lucro_formato)
 
         #Gráfico de gastosxganhos e lucro por mes
-        ganhos_mensais = filtered_vendas.groupby('Mês/Ano')['Valor Líquido'].sum().reset_index()
-        pecas_mensais = filtered_pecas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
-        despesas_mensais = filtered_despesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
+        listaprodutos['Valor Pago na peça'] = (listaprodutos['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
+        listavendas['Valor Líquido'] = (listavendas['Valor Líquido'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
+        listadespesas['Valor Despesa'] = (listadespesas['Valor Despesa'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
+        
+        ganhos_mensais = listavendas.groupby('Mês/Ano')['Valor Líquido'].sum().reset_index()
+        pecas_mensais = listaprodutos.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
+        despesas_mensais = listadespesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
 
         #Juntando os dados filtrados por mês
         dados_mensal = pd.merge(ganhos_mensais, pecas_mensais, on='Mês/Ano', how='outer')
@@ -328,5 +331,6 @@ with st.expander("Conferir Fluxo de Caixa"):
         line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
 
         #Criando e montrando o gráfico
+        st.markdown("###")
         grafico_final = (bar + line).properties(width=700, height=400)
         st.altair_chart(grafico_final)
