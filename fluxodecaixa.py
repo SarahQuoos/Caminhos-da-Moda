@@ -109,7 +109,7 @@ def Venda():
      
     with st.form(key='venda'):
         #Restante das informações de venda
-        valorreal_aux = st.number_input('Valor Real da Venda:', value=valorpago)
+        #valorreal_aux = st.number_input('Valor Real da Venda:', value=0)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
@@ -130,7 +130,8 @@ def Venda():
             st.write("Preencha todas as informações para realizar a venda")
         else:   
             #Calculo do valor com as taxas
-            valorreal = valorreal_aux - (valorreal_aux*taxa)
+            #valorreal = valorpago - (valorreal_aux*taxa)
+            valorreal = valorpago - (valorpago*taxa)
             #Calculo do valor com as porcentagens de consignação
             if porcentagem == 0:
                 valorfinal = valorreal
@@ -148,8 +149,8 @@ def Venda():
             sheet2.append_row(venda_new, value_input_option=gspread.utils.ValueInputOption.user_entered)
             time.sleep(0.5)
             sheet1.delete_rows(linha)
-            time.sleep(0.5)
             st.write("Produto atualizado com sucesso!")
+            time.sleep(1.0)
             #atulizando a pagina
             st.rerun()
 
