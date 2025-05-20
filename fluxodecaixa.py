@@ -330,7 +330,6 @@ with st.expander("Conferir Fluxo de Caixa"):
         #Criando linha do lucro
         line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
         
-    if st.button("Carregar dados fluxo de caixa"):
         #Criando e montrando o gráfico
         st.markdown("###")
         grafico_final = (bar + line).properties(width=700, height=400)
