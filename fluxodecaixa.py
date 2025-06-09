@@ -109,16 +109,18 @@ def Venda():
      
     with st.form(key='venda'):
         #Restante das informações de venda
-        valorreal_aux = st.number_input('Valor Real da Venda:', value=0)
+        valorreal_aux = st.number_input('Valor Real da Venda:', value=0.00)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
 
         #Aplica taxas maquininha
         if pagamento == "Crédito":
-            taxa = 0.0498
+            #taxa = 0.0498
+            taxa = 0.0398
         elif pagamento == "Débito":
-            taxa = 0.0199
+            #taxa = 0.0199
+            taxa = 0.0099
         elif pagamento == "Pix Maquininha":
             taxa = 0.0049
         elif pagamento == "Pix CPF":
@@ -323,12 +325,16 @@ with st.expander("Conferir Fluxo de Caixa"):
         
         #Criando barras de ganhos e gastos
         bar = alt.Chart(dados_mensal).transform_fold(['Ganhos', 'Gastos com Peças', 'Despesas Fixas'],as_=['Tipo', 'Valor']).mark_bar().encode(
-            x=alt.X('Mês/Ano_str:N', title='Mês'),
+            #x=alt.X('Mês/Ano_str:N', title='Mês'),
+            x=alt.X('Mês/Ano_str:N', title='Mês', sort=list(dados_mensal.sort_values('Mês/Ano')['Mês/Ano_str'])),
             y=alt.Y('Valor:Q', title='R$'),
             color='Tipo:N')
         
         #Criando linha do lucro
-        line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
+        #line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
+        line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(
+            x=alt.X('Mês/Ano_str:N', sort=list(df_mensal.sort_values('Mês/Ano')['Mês/Ano_str'])),
+            y='Lucro:Q')
         
         #Criando e montrando o gráfico
         st.markdown("###")
