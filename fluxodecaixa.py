@@ -333,7 +333,7 @@ with st.expander("Conferir Fluxo de Caixa"):
         #Criando linha do lucro
         #line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
         line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(
-            x=alt.X('Mês/Ano_str:N', sort=list(df_mensal.sort_values('Mês/Ano')['Mês/Ano_str'])),
+            x=alt.X('Mês/Ano_str:N', sort=list(dados_mensal.sort_values('Mês/Ano')['Mês/Ano_str'])),
             y='Lucro:Q')
         
         #Criando e montrando o gráfico
