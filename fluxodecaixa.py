@@ -276,6 +276,8 @@ with st.expander("Conferir Fluxo de Caixa"):
         filtered_pecas['Valor Pago na peça'] = (filtered_pecas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
         filtered_vendas = listavendas[listavendas['Mês/Ano'] == mes_escolhido]
+        ##add valor pago peça da planilha de vendas
+        filtered_vendas['Valor Pago na peça'] = (filtered_vendas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         filtered_vendas['Valor Real de Venda'] = (filtered_vendas['Valor Real de Venda'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         filtered_vendas['Valor Líquido'] = (filtered_vendas['Valor Líquido'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
@@ -283,7 +285,10 @@ with st.expander("Conferir Fluxo de Caixa"):
         filtered_despesas['Valor Despesa'] = (filtered_despesas['Valor Despesa'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
  
         #Contas
-        pecas_sum = filtered_pecas['Valor Pago na peça'].sum()
+        ##add valor pago peça da planilha de vendas
+        pecas_estoque_sum = filtered_pecas['Valor Pago na peça'].sum()
+        pecas_vendas_sum = filtered_vendas['Valor Pago na peça'].sum()
+        pecas_sum =  pecas_estoque_sum + pecas_vendas_sum
         vendas_liq_sum = filtered_vendas['Valor Líquido'].sum()
         vendas_bru_sum = filtered_vendas['Valor Real de Venda'].sum()
         despesas_sum = filtered_despesas['Valor Despesa'].sum()
