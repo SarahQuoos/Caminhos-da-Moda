@@ -117,10 +117,10 @@ def Venda():
         #Aplica taxas maquininha
         if pagamento == "Crédito":
             #taxa = 0.0498
-            taxa = 0.0398
+            taxa = 0.0357
         elif pagamento == "Débito":
             #taxa = 0.0199
-            taxa = 0.0099
+            taxa = 0.0167
         elif pagamento == "Pix Maquininha":
             taxa = 0.0049
         elif pagamento == "Pix CPF":
