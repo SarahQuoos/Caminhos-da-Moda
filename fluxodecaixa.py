@@ -267,6 +267,9 @@ with st.expander("Conferir Fluxo de Caixa"):
         listavendas['Data de Venda'] = pd.to_datetime(listavendas['Data de Venda'], dayfirst=True)
         listavendas['Mês/Ano'] = listavendas['Data de Venda'].dt.strftime('%B/%Y')
         time.sleep(0.5)
+        listavendas['Data de Cadastro'] = pd.to_datetime(listavendas['Data de Cadastro'], dayfirst=True)
+        listavendas['Mês/Ano/aux'] = listavendas['Data de Cadastro'].dt.strftime('%B/%Y')
+        time.sleep(0.5)
         listaprodutos['Data de Cadastro'] = pd.to_datetime(listaprodutos['Data de Cadastro'], dayfirst=True)
         listaprodutos['Mês/Ano'] = listaprodutos['Data de Cadastro'].dt.strftime('%B/%Y')
         time.sleep(0.5)
@@ -276,18 +279,18 @@ with st.expander("Conferir Fluxo de Caixa"):
         filtered_pecas['Valor Pago na peça'] = (filtered_pecas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
         filtered_vendas = listavendas[listavendas['Mês/Ano'] == mes_escolhido]
-        ##add valor pago peça da planilha de vendas
-        filtered_vendas['Valor Pago na peça'] = (filtered_vendas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         filtered_vendas['Valor Real de Venda'] = (filtered_vendas['Valor Real de Venda'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         filtered_vendas['Valor Líquido'] = (filtered_vendas['Valor Líquido'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
+        time.sleep(0.5)
+        filtered_vendas_aux = listavendas[listavendas['Mês/Ano/aux'] == mes_escolhido]
+        filtered_vendas_aux['Valor Pago na peça'] = (filtered_vendas_aux['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         time.sleep(0.5)
         filtered_despesas = listadespesas[listadespesas['Mês/Ano'] == mes_escolhido]
         filtered_despesas['Valor Despesa'] = (filtered_despesas['Valor Despesa'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
  
         #Contas
-        ##add valor pago peça da planilha de vendas
         pecas_estoque_sum = filtered_pecas['Valor Pago na peça'].sum()
-        pecas_vendas_sum = filtered_vendas['Valor Pago na peça'].sum()
+        pecas_vendas_sum = filtered_vendas_aux['Valor Pago na peça'].sum()
         pecas_sum =  pecas_estoque_sum + pecas_vendas_sum
         vendas_liq_sum = filtered_vendas['Valor Líquido'].sum()
         vendas_bru_sum = filtered_vendas['Valor Real de Venda'].sum()
