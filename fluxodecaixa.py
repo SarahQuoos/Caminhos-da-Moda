@@ -241,17 +241,12 @@ data2 = sheet2.get_all_values()
 colunas2 = data2.pop(0)
 listavendas = pd.DataFrame(data2,columns=colunas2)
 with st.expander("Conferir vendas"):
-    if st.button("Carregar dados de vendas"):
-        query = st.text_input("Conferir vendas")
-        if query:
-            mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
-            listavendas = listavendas[mask]
-        st.data_editor(listavendas,hide_index=True,) 
-
-sheet3 = arquivo.worksheet("Despesas")
-data3 = sheet3.get_all_values()
-colunas3 = data3.pop(0)
-listadespesas = pd.DataFrame(data3,columns=colunas3)
+    #if st.button("Carregar dados de vendas"):
+    query = st.text_input("Conferir vendas")
+    if query:
+        mask = listavendas.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
+        listavendas = listavendas[mask]
+    st.data_editor(listavendas,hide_index=True,) 
 
 #Calculo do Lucro
 st.markdown("### Consulta Fluxo de Caixa")
