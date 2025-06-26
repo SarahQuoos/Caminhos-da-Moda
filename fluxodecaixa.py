@@ -319,17 +319,17 @@ with st.expander("Conferir Fluxo de Caixa"):
 
         pecas_mensais = listaprodutos.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
         listavendas['Data de Cadastro'] = pd.to_datetime(listavendas['Data de Cadastro'], dayfirst=True)
-        listavendas['Mês/Ano Cadastro_aux'] = listavendas['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
-        listavendas['Mês/Ano Cadastro'] = listavendas['Mês/Ano Cadastro_aux'].dt.strftime('%B/%Y')
-        pecas_mensais_aux = listavendas.groupby('Mês/Ano Cadastro')['Valor Pago na peça'].sum().reset_index()
+        listavendas['Mês/Ano Cadastro'] = listavendas['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
+        listavendas['Mês/Ano'] = listavendas['Mês/Ano Cadastro'].dt.strftime('%B/%Y')
+        pecas_mensais_aux = listavendas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
         ganhos_mensais = listavendas.groupby('Mês/Ano')['Valor Líquido'].sum().reset_index()
         despesas_mensais = listadespesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
 
         #Juntando os dados filtrados por mês
+        
         pecas_todas = pd.concat([pecas_mensais, pecas_mensais_aux])
         pecas_todas
         pecas_mensais_total = pecas_todas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
-        pecas_mensais_total
         dados_mensal = pd.merge(pecas_mensais_total, ganhos_mensais, on='Mês/Ano', how='outer')
         dados_mensal = pd.merge(dados_mensal, despesas_mensais, on='Mês/Ano', how='outer')
 
