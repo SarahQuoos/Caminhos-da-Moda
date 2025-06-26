@@ -326,6 +326,7 @@ with st.expander("Conferir Fluxo de Caixa"):
         despesas_mensais = listadespesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
 
         #Juntando os dados filtrados por mês
+        pecas_mensais_aux = pecas_mensais_aux.rename(columns={'Mês/Ano Cadastro': 'Mês/Ano'})
         pecas_mensais
         pecas_mensais_aux
         pecas_todas = pd.concat([pecas_mensais, pecas_mensais_aux])
