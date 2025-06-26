@@ -234,14 +234,6 @@ with st.expander("Conferir estoque"):
         listaprodutos = listaprodutos[mask]
     st.data_editor(listaprodutos,hide_index=True,) 
 
-#Visualização do Estoque
-with st.expander("Conferir estoque"):
-    query = st.text_input("Filtro")
-    if query:
-        mask = listaprodutos.applymap(lambda x: query.upper() in str(x).upper()).any(axis=1)
-        listaprodutos = listaprodutos[mask]
-    st.data_editor(listaprodutos,hide_index=True,) 
-
 #Visualização de produtos vendidos
 st.markdown("### Consulta produtos vendidos")
 sheet2 = arquivo.worksheet("Vendas")
