@@ -313,28 +313,31 @@ with st.expander("Conferir Fluxo de Caixa"):
 
         #Gráfico de gastosxganhos e lucro por mes
         listaprodutos['Valor Pago na peça'] = (listaprodutos['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
+        listavendas['Valor Pago na peça'] = (listavendas['Valor Pago na peça'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         listavendas['Valor Líquido'] = (listavendas['Valor Líquido'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
         listadespesas['Valor Despesa'] = (listadespesas['Valor Despesa'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
-        
+
         ganhos_mensais = listavendas.groupby('Mês/Ano')['Valor Líquido'].sum().reset_index()
         pecas_mensais = listaprodutos.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
+        pecas_mensais_aux = listavendas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
         despesas_mensais = listadespesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
 
         #Juntando os dados filtrados por mês
-        dados_mensal = pd.merge(ganhos_mensais, pecas_mensais, on='Mês/Ano', how='outer')
+        dados_mensal = pd.merge(pecas_mensais, pecas_mensais_aux, on='Mês/Ano', how='outer')
+        dados_mensal = pd.merge(dados_mensal, ganhos_mensais, on='Mês/Ano', how='outer')
         dados_mensal = pd.merge(dados_mensal, despesas_mensais, on='Mês/Ano', how='outer')
 
         #Renomeando dados e colocando 0 no lugar de células vazias
-        dados_mensal = dados_mensal.rename(columns={'Valor Líquido': 'Ganhos','Valor Pago na peça': 'Gastos com Peças','Valor Despesa': 'Despesas Fixas'})
+        dados_mensal = dados_mensal.rename(columns={'Valor Líquido': 'Ganhos','Valor Pago na peça': 'Gastos com Peças','Valor Despesa': 'Despesas'})
         dados_mensal = dados_mensal.fillna(0)
 
         #Calculo do lucro e pegando coluna de data
-        dados_mensal['Lucro'] = dados_mensal['Ganhos'] - dados_mensal['Gastos com Peças'] - dados_mensal['Despesas Fixas']
+        dados_mensal['Lucro'] = dados_mensal['Ganhos'] - dados_mensal['Gastos com Peças'] - dados_mensal['Despesas']
         dados_mensal['Mês/Ano'] = pd.to_datetime(dados_mensal['Mês/Ano'], errors='coerce')
         dados_mensal['Mês/Ano_str'] = dados_mensal['Mês/Ano'].dt.strftime('%b/%Y')
         
         #Criando barras de ganhos e gastos
-        bar = alt.Chart(dados_mensal).transform_fold(['Ganhos', 'Gastos com Peças', 'Despesas Fixas'],as_=['Tipo', 'Valor']).mark_bar().encode(
+        bar = alt.Chart(dados_mensal).transform_fold(['Ganhos', 'Gastos com Peças', 'Despesas'],as_=['Tipo', 'Valor']).mark_bar().encode(
             #x=alt.X('Mês/Ano_str:N', title='Mês'),
             x=alt.X('Mês/Ano_str:N', title='Mês', sort=list(dados_mensal.sort_values('Mês/Ano')['Mês/Ano_str'])),
             y=alt.Y('Valor:Q', title='R$'),
