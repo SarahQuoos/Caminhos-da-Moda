@@ -248,6 +248,12 @@ with st.expander("Conferir vendas"):
         listavendas = listavendas[mask]
     st.data_editor(listavendas,hide_index=True,) 
 
+#Visualização de despesas   
+sheet3 = arquivo.worksheet("Despesas")
+data3 = sheet3.get_all_values()
+colunas3 = data3.pop(0)Add commentMore actions
+listadespesas = pd.DataFrame(data3,columns=colunas3)
+
 #Calculo do Lucro
 st.markdown("### Consulta Fluxo de Caixa")
 with st.expander("Conferir Fluxo de Caixa"):
