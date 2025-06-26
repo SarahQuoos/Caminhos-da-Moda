@@ -125,6 +125,8 @@ def Venda():
             taxa = 0.0049
         elif pagamento == "Pix CPF":
             taxa = 0
+        elif pagamento =="Dinheiro":
+            taxa = 0
             
     #Atualiza planilhas
     if botao_vendido:
