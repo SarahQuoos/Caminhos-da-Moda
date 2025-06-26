@@ -318,7 +318,9 @@ with st.expander("Conferir Fluxo de Caixa"):
         listadespesas['Valor Despesa'] = (listadespesas['Valor Despesa'].str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float))
 
         pecas_mensais = listaprodutos.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
-        pecas_mensais_aux = listavendas.groupby('Mês/Ano')['Valor Pago na peça'].sum().reset_index()
+        listavendas['Data de Cadastro'] = pd.to_datetime(listavendas['Data de Cadastro'], dayfirst=True)
+        listavendas['Mês/Ano/Aux'] = listavendas['Data de Cadastro'].dt.to_period('M').dt.to_timestamp()
+        pecas_mensais_aux = listavendas.groupby('Mês/Ano/Aux')['Valor Pago na peça'].sum().reset_index()
         ganhos_mensais = listavendas.groupby('Mês/Ano')['Valor Líquido'].sum().reset_index()
         despesas_mensais = listadespesas.groupby('Mês/Ano')['Valor Despesa'].sum().reset_index()
 
