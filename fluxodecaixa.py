@@ -62,9 +62,11 @@ def Cadastro():
         numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","34","35","36","37","38","40","42","44","46"),)
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
-            valor_sugestao_rev = ((valorpago+5)*1.19)*1.5
-            #0,1349(taxas crédito 10x) + 0,05(gastos gerais embutidos) = 0,19
+            valor_sugestao_rev = ((valorpago+5)*1.15)*1.5
+            #0,15(taxas) e 5 (valor fixo despesa)
+            lucro_estimado = (valor_sugestao_rev-(valor_sugestao_rev*0.15))-(valorpago+5)
             st.metric(label="Valor Mínimo de Revenda", value=f"{'R$ {:,.2f}'.format(valor_sugestao_rev)} ",)
+            st.metric(label="Lucro de Revenda", value=f"{'R$ {:,.2f}'.format(lucro_estimado)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
         with st.expander("Valor Sugerido de Venda:"):
@@ -72,10 +74,10 @@ def Cadastro():
                 valor_pensado = st.number_input('Valor Ideia de Ganho:', value=0.00)
                 valor_pensado_venda = st.number_input('Valor Ideia de Venda:', value=0.00)
                 if valor_pensado != 0:
-                    valor_sugestao = (valor_pensado+5)*1.19
+                    valor_sugestao = (valor_pensado+5)*1.15
                     st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
                 else:
-                    ganho_estimado = (valor_pensado_venda-(valor_pensado_venda*0.19))-5 
+                    ganho_estimado = (valor_pensado_venda-(valor_pensado_venda*0.15))-5 
                     st.metric(label="Lucro estimado", value=f"{'R$ {:,.2f}'.format(ganho_estimado)} ",)
         valor = st.number_input('Valor de Venda:')
         date = datetime.today().strftime('%d-%m-%Y')
