@@ -66,7 +66,7 @@ def Cadastro():
             valoretorno = st.number_input('Porcentagem Consignação:')
         with st.expander("Valor Sugerido de Venda:"):
             if valorpago != 0:
-                valor_sugestao_rev = (((valorpago*1.5)+5)*1.19)
+                valor_sugestao_rev = ((valorpago*1.5)*1.19)+5
                 #0,1349(taxas crédito 10x) + 0,05(gastos gerais embutidos) = 0,19
                 st.metric(label="Valor Mínimo de Revenda", value=f"{'R$ {:,.2f}'.format(valor_sugestao_rev)} ",)
             else:
