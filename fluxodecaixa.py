@@ -62,10 +62,17 @@ def Cadastro():
         numeracao = st.selectbox("Numeração:",("Select","ÚNICO","PP","P","M","G","GG","34","35","36","37","38","40","42","44","46"),)
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
-            valor_sugestao = (((valorpago*1.5)+5)*1.05)
-            st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
+        with st.expander("Valor Sugerido de Venda:"):
+            if valorpago != 0:
+                valor_sugestao_rev = (((valorpago*1.5)+5)*1.19)
+                #0,1349(taxas crédito 10x) + 0,05(gastos gerais embutidos) + 1 = 1,19
+                st.metric(label="Valor Mínimo de Revenda", value=f"{'R$ {:,.2f}'.format(valor_sugestao_rev)} ",)
+            else:
+                valorpensado = st.number_input('Valor Ideia:', value=0.00)
+                valor_sugestao = (((valorpensado*1.5)+5)*1.19)
+                st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         valor = st.number_input('Valor de Venda:')
         date = datetime.today().strftime('%d-%m-%Y')
         
@@ -74,7 +81,7 @@ def Cadastro():
         
         #Botões de cadastro
         if st.form_submit_button("Cadastrar"):
-            if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0):
+            if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0) or (valorpensado == 0):
                 st.write("Preencha todas as informações para cadastro")
             else:
                 sheet1.append_row(cadastro)
