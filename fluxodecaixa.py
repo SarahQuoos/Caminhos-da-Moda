@@ -66,13 +66,18 @@ def Cadastro():
             valoretorno = st.number_input('Porcentagem Consignação:')
         with st.expander("Valor Sugerido de Venda:"):
             if valorpago != 0:
-                valor_sugestao_rev = ((valorpago*1.5)*1.19)+5
+                valor_sugestao_rev = ((valorpago+5)*1.19)*1,5
                 #0,1349(taxas crédito 10x) + 0,05(gastos gerais embutidos) = 0,19
                 st.metric(label="Valor Mínimo de Revenda", value=f"{'R$ {:,.2f}'.format(valor_sugestao_rev)} ",)
             else:
-                valor_pensado = st.number_input('Valor Ideia de ganho:', value=0.00)
-                valor_sugestao = (valor_pensado+(valor_pensado*0.19))+5
-                st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+                valor_pensado = st.number_input('Valor Ideia de Ganho:', value=0.00)
+                valor_pensado_venda = st.number_input('Valor Ideia de Venda:', value=0.00)
+                if valor_pensado != 0:
+                    valor_sugestao = (valor_pensado+5)*1.19
+                    st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+                else:
+                    ganho_estimado = (valor_pensado_venda-(valor_pensado_venda*0.19))-5 
+                    st.metric(label="Lucro estimado", value=f"{'R$ {:,.2f}'.format(ganho_estimado)} ",)
         valor = st.number_input('Valor de Venda:')
         date = datetime.today().strftime('%d-%m-%Y')
         
