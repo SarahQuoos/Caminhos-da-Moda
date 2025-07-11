@@ -63,7 +63,7 @@ def Cadastro():
         with st.expander("Revenda de peça?"): 
             valorpago = st.number_input('Valor Pago na peça:', value=0.00)
             valor_sugestao = (((valorpago*1.5)+5)*1.05)
-            st.metric(label="Valor Sugestão de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
+            st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         with st.expander("Peça Consignada?"):
             valoretorno = st.number_input('Porcentagem Consignação:')
         valor = st.number_input('Valor de Venda:')
@@ -110,16 +110,20 @@ def Venda():
     with st.form(key='venda'):
         #Restante das informações de venda
         valorreal_aux = st.number_input('Valor Real da Venda:', value=0.00)
-        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
+        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Crédito 2x","Crédito 5x","Crédito 10x","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
 
         #Aplica taxas maquininha
         if pagamento == "Crédito":
-            #taxa = 0.0498
             taxa = 0.0357
+        elif pagamento == "Crédito 2x":
+            taxa = 0.0779
+        elif pagamento == "Crédito 5x":
+            taxa = 0.102
+        elif pagamento == "Crédito 10x":
+            taxa = 0.1349
         elif pagamento == "Débito":
-            #taxa = 0.0199
             taxa = 0.0167
         elif pagamento == "Pix Maquininha":
             taxa = 0.0049
@@ -177,43 +181,6 @@ def Despesas():
             sheet4.append_row(despesa)
             st.write("Despesa cadastrada com sucesso!")
 
-#Rotina do Modo Feira
-def Modofeira():
-    arquivo = get_client().open('Fluxodecaixa_Caminhosdamoda')
-    sheet6 = arquivo.worksheet("Modo Feira")
-
-    with st.form(key='Modo Feira'):
-        with st.expander("Item 1"):
-            codigo1 = st.text_input('Código Peça 1:')
-            valor1 = st.number_input('Valor Peça 1:', value=0.00)  
-        with st.expander("Item 2"):
-            codigo2 = st.text_input('Código Peça 2:')
-            valor2 = st.number_input('Valor Peça 2:', value=0.00)  
-        with st.expander("Item 3"):
-            codigo3 = st.text_input('Código Peça 3:')
-            valor3 = st.number_input('Valor Peça 3:', value=0.00)
-        with st.expander("Item 4"):
-            codigo4 = st.text_input('Código Peça 4:')
-            valor4 = st.number_input('Valor Peça 4:', value=0.00)
-        with st.expander("Item 5"):
-            codigo5 = st.text_input('Código Peça 5:')
-            valor5 = st.number_input('Valor Peça 5:', value=0.00)  
-        valor_final_aux = valor1 + valor2 + valor3 + valor4 + valor5
-        valor_final = st.number_input('Valor Total da Venda:', value=valor_final_aux)
-        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
-        botao_feira = st.form_submit_button('Venda Feira')
-    if botao_feira:
-        if (pagamento == "Select") or (valor_final == 0):
-            st.write("Preencha todas as informações!")
-        else:
-            cadastro_feira = [codigo1, codigo2, codigo3, codigo4, codigo5, pagamento, valor_final]
-            sheet6.append_row(cadastro_feira)
-            st.write("Produto cadastrado com sucesso!")
-            st.session_state.number_input_value = 0.0
-            st.rerun()
-            #atualizando a página
-            time.sleep(1.0)
-
 #Menu de opções
 with st.sidebar:
     st.title("Opções e Serviços")
@@ -223,8 +190,6 @@ with st.sidebar:
         Venda()
     if st.checkbox ("Despesas"):
         Despesas()
-    if st.checkbox ("Modo Feira"):
-        Modofeira()
         
 #Visualização do Estoque
 with st.expander("Conferir estoque"):
