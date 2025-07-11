@@ -67,11 +67,11 @@ def Cadastro():
         with st.expander("Valor Sugerido de Venda:"):
             if valorpago != 0:
                 valor_sugestao_rev = (((valorpago*1.5)+5)*1.19)
-                #0,1349(taxas crédito 10x) + 0,05(gastos gerais embutidos) + 1 = 1,19
+                #0,1349(taxas crédito 10x) + 0,05(gastos gerais embutidos) = 0,19
                 st.metric(label="Valor Mínimo de Revenda", value=f"{'R$ {:,.2f}'.format(valor_sugestao_rev)} ",)
             else:
-                valorpensado = st.number_input('Valor Ideia:', value=0.00)
-                valor_sugestao = (((valorpensado*1.5)+5)*1.19)
+                valor_pensado = st.number_input('Valor Ideia de ganho:', value=0.00)
+                valor_sugestao = (valor_pensado+(valor_pensado*0.19))+5
                 st.metric(label="Valor Mínimo de Venda", value=f"{'R$ {:,.2f}'.format(valor_sugestao)} ",)
         valor = st.number_input('Valor de Venda:')
         date = datetime.today().strftime('%d-%m-%Y')
@@ -81,7 +81,7 @@ def Cadastro():
         
         #Botões de cadastro
         if st.form_submit_button("Cadastrar"):
-            if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0) or (valorpensado == 0):
+            if (categoria == "Select") or (proprietario == "") or (produto == "") or (valor == 0) or (valor_pensado == 0):
                 st.write("Preencha todas as informações para cadastro")
             else:
                 sheet1.append_row(cadastro)
