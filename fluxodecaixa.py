@@ -154,11 +154,11 @@ def Venda():
             valorreal = valorreal_aux - (valorreal_aux*taxa)
             #Calculo do valor com as porcentagens de consignação
             if porcentagem == 0:
-                valorfinal = valorreal
                 retorno = 0
+                valorfinal = valorreal
             else:
-                valorfinal = valorreal - (((100-porcentagem)*valorreal)/100)
-                retorno = valorreal - ((porcentagem)*valorreal)/100
+                retorno = (porcentagem*valorreal_aux)/100
+                valorfinal = valorreal - retorno
                 
             #Faz dataframe
             venda = [valorreal_aux, pagamento, taxa, valorreal, retorno, valorfinal, date]
