@@ -125,8 +125,7 @@ def Venda():
         valorreal_aux = st.number_input('Valor Real da Venda:', value=0.00)
         pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
-        botao_vendido = st.form_submit_button('Vendido')
-
+        
         #Aplica taxas maquininha
         if pagamento == "Crédito":
             vezes = st.selectbox("Quantas vezes?",("Select","1x","2x","3x","4x","5x","6x","7x","8x","9x","10x"),)
@@ -158,7 +157,9 @@ def Venda():
             taxa = 0
         elif pagamento =="Dinheiro":
             taxa = 0
-            
+        #Botão vender    
+        botao_vendido = st.form_submit_button('Vendido')    
+        
     #Atualiza planilhas
     if botao_vendido:
         if (codigo == "") or (pagamento == "Select") or (valorreal_aux == 0):
