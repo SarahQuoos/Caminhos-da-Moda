@@ -123,19 +123,33 @@ def Venda():
     with st.form(key='venda'):
         #Restante das informações de venda
         valorreal_aux = st.number_input('Valor Real da Venda:', value=0.00)
-        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Crédito 2x","Crédito 5x","Crédito 10x","Débito","Dinheiro"),)
+        pagamento = st.selectbox("Forma de Pagamento:",("Select", "Pix Maquininha","Pix CPF", "Crédito","Débito","Dinheiro"),)
         date = datetime.today().strftime('%d-%m-%Y')
         botao_vendido = st.form_submit_button('Vendido')
 
         #Aplica taxas maquininha
         if pagamento == "Crédito":
-            taxa = 0.0357
-        elif pagamento == "Crédito 2x":
-            taxa = 0.0779
-        elif pagamento == "Crédito 5x":
-            taxa = 0.102
-        elif pagamento == "Crédito 10x":
-            taxa = 0.1349
+            vezes = st.selectbox("Quantas vezes?",("Select","1x","2x","3x","4x","5x","6x","7x","8x","9x","10x"),)
+            if vezes == "1x":
+                taxa = 0.0357
+            elif vezes == "2x":     
+                taxa = 0.0779
+            elif vezes == "3x":     
+                taxa = 0.0845
+            elif vezes == "4x":     
+                taxa = 0.0933
+            elif vezes == "5x":
+                taxa = 0.102
+            elif vezes == "6x":
+                taxa = 0.1109
+            elif vezes == "7x":
+                taxa = 0.1189
+            elif vezes == "8x":
+                taxa = 0.1274
+            elif vezes == "9x":
+                taxa = 0.1324
+            elif vezes == "10x":
+                taxa = 0.1349
         elif pagamento == "Débito":
             taxa = 0.0167
         elif pagamento == "Pix Maquininha":
