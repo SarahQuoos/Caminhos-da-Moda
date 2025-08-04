@@ -66,10 +66,10 @@ def pagina_cadastro():
             "Outros",
             "Pijama",
             "Saia",
-            "Saída de Praia",
+            "Saída de praia",
             "Sapato",
             "Shorts",
-            "TOP",
+            "Top",
             "Vestido",
         ],
     )
@@ -369,7 +369,7 @@ if st.checkbox("Conferir vendas"):
     )
 
 
-# # Calculo do Lucro
+# Calculo do Lucro
 st.markdown("### Consulta Fluxo de Caixa")
 if st.checkbox("Conferir Fluxo de Caixa"):
     listadespesas = get_planilha("Despesas")
@@ -430,6 +430,7 @@ if st.checkbox("Conferir Fluxo de Caixa"):
             .str.replace(",", ".", regex=False)
             .astype(float)
         )
+        time.sleep(0.5)
         filtered_vendas["Valor Líquido"] = (
             filtered_vendas["Valor Líquido"]
             .str.replace(".", "", regex=False)
@@ -580,7 +581,6 @@ if st.checkbox("Conferir Fluxo de Caixa"):
             )
             .mark_bar()
             .encode(
-                # x=alt.X('Mês/Ano_str:N', title='Mês'),
                 x=alt.X(
                     "Mês/Ano_str:N",
                     title="Mês",
@@ -592,7 +592,6 @@ if st.checkbox("Conferir Fluxo de Caixa"):
         )
 
         # Criando linha do lucro
-        # line = alt.Chart(dados_mensal).mark_line(color='black', point=True).encode(x='Mês/Ano_str:N',y='Lucro:Q')
         line = (
             alt.Chart(dados_mensal)
             .mark_line(color="black", point=True)
@@ -609,3 +608,4 @@ if st.checkbox("Conferir Fluxo de Caixa"):
         st.markdown("###")
         grafico_final = (bar + line).properties(width=700, height=400)
         st.altair_chart(grafico_final)
+
